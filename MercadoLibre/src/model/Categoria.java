@@ -1,0 +1,12 @@
+package model;
+
+public enum Categoria {
+    LIBROS,
+    ELECTRONICA,
+    ROPA_Y_ACCESORIOS,
+    ALIMENTOS_Y_BEBIDAS,
+    PAPELERIA,
+    DEPORTES,
+    BELLEZA_Y_CUIDADO_PERSONAL,
+    JUGUETES_Y_JUEGOS
+}

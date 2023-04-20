@@ -1,6 +1,9 @@
 # TI2-APOII-inventarios
 Tarea integradora II APOII
 
-#link del enunciado
+link del enunciado
 
 https://docs.google.com/document/d/1pJD026DSvLJ9pmCHH4i_RNPmqhX569LI/edit
+
+Requisitos link
+https://docs.google.com/document/d/1Mgl1zMoWrgd3topHr4aVx8nnwVddVsHM/edit

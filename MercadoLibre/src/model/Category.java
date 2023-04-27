@@ -1,6 +1,6 @@
 package model;
 
-public enum Categoria {
+public enum Category {
     LIBROS,
     ELECTRONICA,
     ROPA_Y_ACCESORIOS,

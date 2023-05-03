@@ -9,7 +9,7 @@ public class Product {
         private Category category;
         private int timesBought;
 
-    public Product(String nombre, String descripcion, double precio, int cantidadDisponible, int categorias) {
+    public Product(String nombre, String descripcion, double precio, int cantidadDisponible, int categorias,int timesBought) {
         this.name = nombre;
         this.description = descripcion;
         this.price = precio;
@@ -34,6 +34,8 @@ public class Product {
             case 8: category = Category.JUGUETES_Y_JUEGOS;
                 break;
         }
+
+        this.timesBought = timesBought;
 
     }
 

@@ -49,4 +49,8 @@ public class Delivery {
 
         products = new ArrayList<>();
     }
+
+    public void addProducts(Product product){
+        products.add(product);
+    }
 }

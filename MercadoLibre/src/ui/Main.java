@@ -3,7 +3,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import com.google.gson.Gson;
-import model.Controller;
+import model.Store;
 import model.Delivery;
 import java.util.Arrays;
 
@@ -11,7 +11,7 @@ public class Main {
    public Scanner sc;
    public boolean exit = false;
 
-   private Controller controller;
+   private Store controller;
    private Gson gson;
 
     public static void main(String[] args) {
@@ -24,7 +24,7 @@ public class Main {
 
         sc = new Scanner(System.in);
         gson = new Gson();
-        controller = new Controller();
+        controller = new Store();
 
     }
 

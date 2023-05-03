@@ -3,13 +3,13 @@ package model;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class Controller {
+public class Store {
 
     public ArrayList<Product> products;
     public ArrayList<Delivery> deliveries;
 
-    public void addProducts(String nombre, String descripcion, double precio, int cantidadDisponible, int categorias){
-        products.add(new Product(nombre,descripcion,precio,cantidadDisponible,categorias));
+    public void addProducts(String nombre, String descripcion, double precio, int cantidadDisponible, int categorias,int timesBought){
+        products.add(new Product(nombre,descripcion,precio,cantidadDisponible,categorias,timesBought));
     }
 
     public boolean deleteProduct(String name){
@@ -29,9 +29,10 @@ public class Controller {
     public void addDelivery(String buyerName, double totalPrice, Calendar buyDate){
 
 
+
     }
 
-    public Controller() {
+    public Store() {
         products = new ArrayList<>();
         deliveries = new ArrayList<>();
     }

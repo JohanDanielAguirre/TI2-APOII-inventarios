@@ -1,14 +1,34 @@
 package ui;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
+import com.google.gson.Gson;
+import model.Controller;
+import model.Delivery;
+import java.util.Arrays;
+
 public class Main {
-   public static  Scanner sc;
-   public  static boolean exit = false;
+   public Scanner sc;
+   public boolean exit = false;
+
+   private Controller controller;
+   private Gson gson;
+
     public static void main(String[] args) {
-       sc = new Scanner(System.in);
-       mainMenu();
+        Main objMain = new Main();
+
+        objMain.mainMenu();
     }
 
-    public static void mainMenu(){
+    public Main() {
+
+        sc = new Scanner(System.in);
+        gson = new Gson();
+        controller = new Controller();
+
+    }
+
+    public void mainMenu(){
         System.out.println("""
                 
                 +++++++++++++++++++++++++
@@ -16,139 +36,62 @@ public class Main {
                 +++++++++++++++++++++++++
                 
                   Select an option
-                    [1] Login
-                    [2] Register user
+                    [1] Manage products
+                    [2] Manage deliveries
                 
                 """);
         String optionTemp = sc.nextLine();
         int option = Integer.parseInt(optionTemp);
         switch (option){
-            case 1 : menuLogin();
-            break;
-            case 2 : registerUser();
-            break;
-        }
-    }
-    public static void menuLogin(){
-        System.out.println("Insert userName\n" );
-        String username = sc.nextLine();
-        System.out.println("insert password\n");
-        String password = sc.nextLine();
-
-
-        // Aqui va la validacion para entrar a la pagina ya sea como comprador como vendedor
-
-        if(true) { // si la validaciones correcta acceder al menu seleccionado
-            System.out.println("""
-                    \n
-                    *****************
-                    Redirecting to  Dashboard...
-                    *****************
-                    \s
-                    """
-            );
-        }
-        else{ //si es incorecta retorna al menu princiapl
-            System.out.println("""
-                        *******************
-                        *BACK TO MAIN MENU*
-                        *******************
-                    """);
-            mainMenu();
-        }
-
-    }
-    public static void dashboardBuyer(){ // el usuario comprador va a tener un menu diferente al vendedor, ya que el comprador solo le interesa ver el producto y comprarlo
-        System.out.println("\n **************** BUYER USER *****************\n" +
-                           "our stocks" +
-                           "\n buscar productos ");
-        // aqui van el estock disponible
-
-        System.out.println("""
-                    [1] carrito
-                    [2] efectuar pago
-                    [3] logout
-                """);
-        String optionTemp =sc.nextLine();
-        int option = Integer.parseInt(optionTemp);
-        while (!exit){
-            switch (option){
-                case 1:
-                    System.out.println("select the object that u wanna buy");
-                    //pienso hacer otro switch donde el usuario seleccione los productos que quiera y cuando efectue el pago se descuenten del stock
-                    break;
-                case 2:
-                    // aqui va la validacion del pago
-                    break;
-                case 3:
-                    exit = true;
-                    mainMenu();
-                    break;
-            }
-        }
-
-    }
-    public static void dashboardSeller(){// este usuario va a ser para los vendedores donde van a agregar o quitar productos
-        System.out.println("""
-                ***********seller user*************
-                [1] Show stocks
-                [2] add any product
-                [3] delete any product
-                [4]logout
-                """);
-        String optionTemp =sc.nextLine();
-        int option = Integer.parseInt(optionTemp);
-        while (!exit){
-            switch (option){
-                case 1:
-                   //mostrar los stock disponibles y sin existencias
-
-                    break;
-                case 2:
-                    System.out.println("Name of product");
-                    String ProductName = sc.nextLine();
-                    System.out.println("Descrption");
-                    String description = sc.nextLine();
-                    System.out.println("Price");
-                    String priceTemp =sc.nextLine();
-                    double price = Double.parseDouble(priceTemp);
-                    System.out.println("number of stocks");
-                    String stockTemp = sc.nextLine();
-                    int stock = Integer.parseInt(stockTemp);
-
-                    // la relacion con el controller para guardar los datos
-
-                    break;
-                    case 3:
-                        //borrar cantiades de productos
+            case 1 :
                 break;
-                case 4:
-                    exit =true;
-                    mainMenu();
-                    break;
-
-            }
+            case 2 :
+                break;
         }
     }
-    public static void registerUser(){
-        System.out.println("name");
-        String name = sc.nextLine();
-        System.out.println("Username");
-        String UserName = sc.nextLine();
-        System.out.println("password");
-        String password = sc.nextLine();
-        System.out.println("""
-                create account as
-                    [1] seller
-                    [2] buyer
-                """);
-        String typeTemp = sc.nextLine();
-        int type = Integer.parseInt(typeTemp);
-        // se llama al controller para crear el objeto user
 
-        System.out.println("ur user was created sucessfully" +
-                           "\n return to main menu...." +
-                           "\n *******************");
-        mainMenu();
+
+    public void writeGsonDeliveries(){
+
+        String json = gson.toJson(controller.deliveries);
+
+        try{
+            FileOutputStream fos = new FileOutputStream(new File("countries.txt"));
+            fos.write(json.getBytes(StandardCharsets.UTF_8));
+            fos.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
+
+    public void readGsonDeliveries(){
+
+        File file = new File("countries.txt");
+
+        if (file.exists()){
+            try {
+                FileInputStream fis = new FileInputStream(file);
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+
+                String json = "";
+                String line;
+
+                if ((line = reader.readLine())!=null){
+                    json = line;
+                }
+
+                fis.close();
+
+                Delivery[] countriesFromJson = gson.fromJson(json, Delivery[].class);
+
+                controller.deliveries.addAll(Arrays.asList(countriesFromJson));
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        }
     }
+}

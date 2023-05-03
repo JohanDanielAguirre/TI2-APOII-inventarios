@@ -7,7 +7,7 @@ public class Product {
         private double price;
         private int inventory;
         private Category category;
-        private int timesBuyed;
+        private int timesBought;
 
     public Product(String nombre, String descripcion, double precio, int cantidadDisponible, int categorias) {
         this.name = nombre;
@@ -77,12 +77,12 @@ public class Product {
         this.category = category;
     }
 
-    public int getTimesBuyed() {
-        return timesBuyed;
+    public int getTimesBought() {
+        return timesBought;
     }
 
-    public void setTimesBuyed(int timesBuyed) {
-        this.timesBuyed = timesBuyed;
+    public void setTimesBought(int timesBought) {
+        this.timesBought = timesBought;
     }
 }
 

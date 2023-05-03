@@ -41,4 +41,12 @@ public class Delivery {
     public void setBuyDate(Calendar buyDate) {
         this.buyDate = buyDate;
     }
+
+    public Delivery(String buyerName, double totalPrice, Calendar buyDate) {
+        this.buyerName = buyerName;
+        this.totalPrice = totalPrice;
+        this.buyDate = buyDate;
+
+        products = new ArrayList<>();
+    }
 }

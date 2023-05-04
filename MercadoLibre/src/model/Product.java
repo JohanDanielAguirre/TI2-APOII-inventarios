@@ -51,8 +51,11 @@ public class Product implements Comparable<Product>{
         return inventory;
     }
 
-    public void setInventory(int inventory) {
-        this.inventory = inventory;
+    public void setInventoryUp(int inventory) {
+        this.inventory += inventory;
+    }
+    public void setInventoryDown(int inventory) {
+        this.inventory -= inventory;
     }
 
     public String getDescription() {

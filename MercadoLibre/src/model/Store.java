@@ -9,18 +9,30 @@ public class Store {
     public ArrayList<Delivery> deliveries;
 
     public void addProducts(String nombre, String descripcion, double precio, int cantidadDisponible, int categorias,int timesBought){
-        products.add(new Product(nombre,descripcion,precio,cantidadDisponible,categorias,timesBought));
+
+        Product product = new Product(nombre,descripcion,precio,cantidadDisponible,categorias,timesBought);
+        int index = searchProductSpecific(nombre);
+        if (index > -1){
+            products.get(index).setInventoryUp(cantidadDisponible);
+        }else {
+            products.add(product);
+        }
+
+
+        bubbleSort();
     }
 
     public boolean deleteProduct(String name){
        boolean wasErased = false;
 
-       int i = 0;
+       int i = searchProductSpecific(name);
        products.remove(i);
 
        if (products.get(i) == null){
            wasErased = true;
        }
+
+        bubbleSort();
 
         return wasErased;
 
@@ -36,10 +48,45 @@ public class Store {
 
     }
 
-    public int searchProduct(){
+    public int searchProductSpecific(String name){
 
+        int left = 0;
 
-        return 0;
+        int right = products.size()-1;
+
+        while(left <= right){
+
+            int mid = (left+right)/2;
+
+            Product midP = products.get(mid);
+
+            if (midP.getName().equals(name)){
+                return mid;
+            }else if(midP.getName().compareTo(name) < 0){
+                right = mid - 1;
+            }else if(midP.getName().compareTo(name) > 0) {
+                left = mid + 1;
+            }
+
+        }
+
+        return -1;
+    }
+
+    private void bubbleSort() {
+        for (int i = 0; i < products.size(); i++) {
+            for (int j = 1; j < products.size()-i; j++) {
+                if(products.get(j).compareTo(products.get(j-1))<0){
+                    // get values to swap
+                    Product anterior = products.get(j-1);
+                    Product actual = products.get(j);
+                    // swap
+                    products.set(j,anterior);
+                    products.set(j-1,actual);
+                }
+            }
+
+        }
     }
 
     public Store() {

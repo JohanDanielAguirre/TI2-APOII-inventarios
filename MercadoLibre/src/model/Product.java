@@ -1,6 +1,6 @@
 package model;
 
-public class Product {
+public class Product implements Comparable<Product>{
 
         private String name;
         private String description;
@@ -85,6 +85,24 @@ public class Product {
 
     public void setTimesBought(int timesBought) {
         this.timesBought = timesBought;
+    }
+
+    @Override
+    public int compareTo(Product o) {
+
+        int value = this.name.compareTo(o.getName());
+
+        if(value == 0){
+            value = (int)(this.price - o.getPrice());
+            if (value == 0){
+                value = this.inventory - o.getInventory();
+                if (value == 0){
+                    value = this.timesBought - o.getTimesBought();
+                }
+            }
+        }
+
+        return value;
     }
 }
 

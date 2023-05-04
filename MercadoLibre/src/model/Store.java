@@ -32,6 +32,16 @@ public class Store {
 
     }
 
+    public void addProductToDelivery(){
+
+    }
+
+    public int searchProduct(){
+
+
+        return 0;
+    }
+
     public Store() {
         products = new ArrayList<>();
         deliveries = new ArrayList<>();

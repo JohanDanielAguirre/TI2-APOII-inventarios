@@ -1,5 +1,6 @@
 package model;
 
+import exceptions.InvalidDataException;
 import exceptions.NotEnoughProductsException;
 import exceptions.ObjectNotFoundException;
 

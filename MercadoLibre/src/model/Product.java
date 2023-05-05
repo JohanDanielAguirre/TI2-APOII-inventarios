@@ -1,5 +1,6 @@
 package model;
 
+import exceptions.InvalidDataException;
 import exceptions.NotEnoughProductsException;
 
 public class Product implements Comparable<Product>{
@@ -53,7 +54,7 @@ public class Product implements Comparable<Product>{
         return inventory;
     }
 
-    public void setInventory(int inventory) throws NotEnoughProductsException {
+    public void setInventory(int inventory) throws NotEnoughProductsException{
 
         if(this.inventory < Math.abs(inventory) ){
             throw new NotEnoughProductsException("No se puede rertirar esa cantidad de objetos de la tienda");

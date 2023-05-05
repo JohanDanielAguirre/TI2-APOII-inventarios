@@ -1,0 +1,2 @@
+1. Id: d81067e Link : https://github.com/JohanDanielAguirre/TI2-APOII-inventarios/commit/d81067e002e31243d0f7f47e1d04afc3c0a85282
+2. Id: 13c0498 Link : https://github.com/JohanDanielAguirre/TI2-APOII-inventarios/commit/13c04984c2e2374f9acfe50bbf34a1d5c9977953

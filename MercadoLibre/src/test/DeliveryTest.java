@@ -19,7 +19,9 @@ public class DeliveryTest extends TestCase {
     }
 
     private void testRemoveProduct(){
+        setUpStage3();
 
+        
         
     }
 

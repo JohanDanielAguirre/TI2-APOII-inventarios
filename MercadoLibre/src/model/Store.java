@@ -1,5 +1,8 @@
 package model;
 
+import exceptions.NotEnoughProductsException;
+import exceptions.ObjectNotFoundException;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -11,9 +14,18 @@ public class Store {
     public void addProducts(String nombre, String descripcion, double precio, int cantidadDisponible, int categorias,int timesBought){
 
         Product product = new Product(nombre,descripcion,precio,cantidadDisponible,categorias,timesBought);
-        int index = searchProductSpecific(nombre);
+        int index = 0;
+        try {
+            index = searchProductSpecific(nombre);
+        } catch (ObjectNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
         if (index > -1){
-            products.get(index).setInventoryUp(cantidadDisponible);
+            try {
+                products.get(index).setInventory(cantidadDisponible);
+            } catch (NotEnoughProductsException e) {
+                System.out.println(e.getMessage());
+            }
         }else {
             products.add(product);
         }
@@ -25,8 +37,13 @@ public class Store {
     public boolean deleteProduct(String name){
        boolean wasErased = false;
 
-       int i = searchProductSpecific(name);
-       products.remove(i);
+        int i = 0;
+        try {
+            i = searchProductSpecific(name);
+        } catch (ObjectNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+        products.remove(i);
 
        if (products.get(i) == null){
            wasErased = true;
@@ -48,7 +65,7 @@ public class Store {
 
     }
 
-    public int searchProductSpecific(String name){
+    public int searchProductSpecific(String name) throws ObjectNotFoundException {
 
         int left = 0;
 
@@ -70,7 +87,8 @@ public class Store {
 
         }
 
-        return -1;
+        throw new ObjectNotFoundException("No se encontro el objeto");
+
     }
 
     private void bubbleSort() {

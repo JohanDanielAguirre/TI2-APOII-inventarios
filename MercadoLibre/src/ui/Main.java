@@ -29,17 +29,17 @@ public class Main {
     }
 
     public void mainMenu(){
-        System.out.println("""
+        System.out.println("\n" +
+            "                                   \n"+
+            "    +++++++++++++++++++++++++ \n"+
+            "    WELCOME TO MERCADO LIBRE \n"+
+            "    +++++++++++++++++++++++++ \n"+
+           "                                         \n"+
+           "       Select an option \n"+
+           "         [1] Manage products\n"+
+           "         [2] Manage deliveries\n"
                 
-                +++++++++++++++++++++++++
-                WELCOME TO MERCADO LIBRE
-                +++++++++++++++++++++++++
-                
-                  Select an option
-                    [1] Manage products
-                    [2] Manage deliveries
-                
-                """);
+                );
         String optionTemp = sc.nextLine();
         int option = Integer.parseInt(optionTemp);
         switch (option){

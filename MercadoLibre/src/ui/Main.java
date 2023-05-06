@@ -40,7 +40,7 @@ public class Main {
                     "       Select an option \n" +
                     "         [1] Manage products\n" +
                     "         [2] Manage deliveries\n" +
-                    "         [3] Search products\n"
+                    "         [8] Search products\n"
             );
             String optionTemp = sc.nextLine();
             int option = Integer.parseInt(optionTemp);

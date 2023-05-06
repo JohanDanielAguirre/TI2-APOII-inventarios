@@ -1,7 +1,6 @@
 package model;
 
-import exceptions.InvalidDataException;
-import exceptions.ObjectNotFoundException;
+import exceptions.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;

@@ -1,18 +1,20 @@
 package test;
 
+import exceptions.*;
 import junit.framework.TestCase;
-import model.Store;
+import model.*;
+
 
 public class StoreTest extends TestCase {
 
     private Store store;
 
-    private void SetUpStage6(){
+    private void setUpStage6(){
         store = new Store();
     }
 
     private void setUpStage5(){
-        SetUpStage6();
+        setUpStage6();
 
         store.addProducts("Bolso Louis Vuitton",
                 "Bolso de alta gama con cuero suizo",
@@ -72,11 +74,67 @@ public class StoreTest extends TestCase {
     }
 
     private void setUpStage4(){
-        SetUpStage6();
+        setUpStage6();
         setUpStage5();
 
 
 
+    }
+
+    public void testAddProductNew(){
+        setUpStage6();
+        setUpStage5();
+
+
+        Product toAdd = new Product("Vaso de cristal","Vaso super fino",250000,250,4,0);
+
+        store.addProducts("Vaso de cristal","Vaso super fino",250000,250,4,0);
+
+        try {
+            int index = store.searchProductSpecific("Vaso de cristal");
+            assertEquals(toAdd.getName(),store.products.get(index).getName());
+        } catch (ObjectNotFoundException e) {
+            fail();
+        }
+
+
+
+    }
+
+    public void testAddProductExist(){
+        setUpStage6();
+        setUpStage5();
+
+        store.addProducts("Bolso Louis Vuitton",
+                "Bolso de alta gama con cuero suizo",
+                250000,
+                25,
+                3,
+                25);
+
+        try {
+            int index = store.searchProductSpecific("Bolso Louis Vuitton");
+            assertEquals(275,store.products.get(index).getInventory());
+        } catch (ObjectNotFoundException e) {
+            fail();
+        }
+
+    }
+
+    public void testRemoveProductExists(){
+        setUpStage6();
+        setUpStage5();
+        String name = "Bolso Louis Vuitton";
+
+        assertTrue(store.deleteProduct(name));
+    }
+
+    public void testRemoveProductNotExists(){
+        setUpStage6();
+        setUpStage5();
+        String name = "Juguete de max steel";
+
+        assertFalse(store.deleteProduct(name));
     }
 
 

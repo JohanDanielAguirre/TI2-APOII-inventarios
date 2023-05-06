@@ -1,11 +1,10 @@
 package model;
 
-import exceptions.InvalidDataException;
-import exceptions.NotEnoughProductsException;
-import exceptions.ObjectNotFoundException;
+import exceptions.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 
 public class Store {
 
@@ -17,48 +16,46 @@ public class Store {
     public void addProducts(String nombre, String descripcion, double precio, int cantidadDisponible, int categorias,int timesBought){
 
         Product product = new Product(nombre,descripcion,precio,cantidadDisponible,categorias,timesBought);
-        int index = 0;
+        int index;
+
         try {
             index = searchProductSpecific(nombre);
+            products.get(index).setInventory(cantidadDisponible);
         } catch (ObjectNotFoundException e) {
+            products.add(product);
+        } catch (NotEnoughProductsException e) {
             System.out.println(e.getMessage());
         }
-        if (index > -1){
-            try {
-                products.get(index).setInventory(cantidadDisponible);
-            } catch (NotEnoughProductsException e) {
-                System.out.println(e.getMessage());
-            }
-        }else {
-            products.add(product);
-        }
 
 
-        bubbleSort();
+        sort();
     }
 
     public boolean deleteProduct(String name){
        boolean wasErased = false;
-
+        Product toDelete = null;
         int i = 0;
         try {
             i = searchProductSpecific(name);
+            toDelete = products.get(i);
         } catch (ObjectNotFoundException e) {
             System.out.println(e.getMessage());
         }
+
         products.remove(i);
 
-       if (products.get(i) == null){
+
+       if (toDelete != null && !products.contains(toDelete)){
            wasErased = true;
        }
 
-        bubbleSort();
+        sort();
 
         return wasErased;
 
     }
 
-    public void addDelivery(String buyerName, double totalPrice, Calendar buyDate){
+    public void createDelivery(String buyerName, double totalPrice, Calendar buyDate){
 
 
 
@@ -82,10 +79,10 @@ public class Store {
 
             if (midP.getName().equals(name)){
                 return mid;
-            }else if(midP.getName().compareTo(name) < 0){
-                right = mid - 1;
-            }else if(midP.getName().compareTo(name) > 0) {
-                left = mid + 1;
+            }else if(name.compareTo(midP.getName()) > 0){
+                left = mid+1;
+            }else if(name.compareTo(midP.getName()) <  0) {
+                right = mid-1;
             }
 
         }
@@ -94,10 +91,14 @@ public class Store {
 
     }
 
-    private void bubbleSort() {
+    public void sort(){
+        Collections.sort(products);
+    }
+
+    private void bubbleSortDescendingOrder() {
         for (int i = 0; i < products.size(); i++) {
             for (int j = 1; j < products.size()-i; j++) {
-                if(products.get(j).compareTo(products.get(j-1))<0){
+                if(products.get(j).compareTo(products.get(j-1))>0){
                     // get values to swap
                     Product anterior = products.get(j-1);
                     Product actual = products.get(j);

@@ -1,7 +1,6 @@
 package model;
 
-import exceptions.InvalidDataException;
-import exceptions.NotEnoughProductsException;
+import exceptions.*;
 
 public class Product implements Comparable<Product>{
 
@@ -112,6 +111,18 @@ public class Product implements Comparable<Product>{
         }
 
         return value;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", inventory=" + inventory +
+                ", category=" + category +
+                ", timesBought=" + timesBought +
+                "'}\n'";
     }
 }
 

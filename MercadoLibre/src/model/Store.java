@@ -5,6 +5,7 @@ import exceptions.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class Store {
 
@@ -118,31 +119,36 @@ public class Store {
     }
 
     public void searchbyrange(int min, int max, int option) {
-        fillarray((ArrayList<Product>) aux,products);
-        switch (option){
+        searchbyrange(min, max, option);
+        switch (option) {
             case 1:
-                searchprice(min,max);
+                Collections.sort(products, Comparator.comparingDouble(Product::getPrice));
+                for (Product p:products) {
+                    if(p.getPrice()>=min && p.getPrice()<=max){
+                        aux.add(p);
+                    }
+                }
                 break;
             case 2:
-                searchquantity(min,max);
+                Collections.sort(products, Comparator.comparingInt(Product::getInventory));
+                for (Product p:products) {
+                    if(p.getInventory()>=min && p.getInventory()<=max){
+                        aux.add(p);
+                    }
+                }
                 break;
             case 3:
-                searchbrought(min,max);
+                Collections.sort(products, Comparator.comparingInt(Product::getTimesBought));
+                for (Product p:products) {
+                    if(p.getTimesBought()>=min && p.getTimesBought()<=max){
+                        aux.add(p);
+                    }
+                }
                 break;
         }
-    }
-
-    private void searchbrought(int min, int max) {
-    }
-
-    private void searchquantity(int min, int max) {
-    }
-
-    private void searchprice(int min, int max) {
-    }
-
-    // este metodo puede ser reemplazado si no se le encuentra otros casos donde se implemente
-    private void fillarray(ArrayList<Product> farray,ArrayList<Product> darray){
-        farray.addAll(darray);
+        String n="";
+        for (Product p:aux) {
+            n+=p.toString()+"\n";
+        }
     }
 }

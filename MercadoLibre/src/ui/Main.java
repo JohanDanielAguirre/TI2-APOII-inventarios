@@ -3,6 +3,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import com.google.gson.Gson;
+import model.Product;
 import model.Store;
 import model.Delivery;
 import java.util.Arrays;
@@ -75,9 +76,9 @@ public class Main {
         }
     }
 
-    public void writeGsonDeliveries(){
+    public void writeGsonProducts(){
 
-        String json = gson.toJson(controller.deliveries);
+        String json = gson.toJson(controller.products);
 
         try{
             FileOutputStream fos = new FileOutputStream(new File("countries.txt"));
@@ -88,7 +89,7 @@ public class Main {
         }
     }
 
-    public void readGsonDeliveries(){
+    public void readGsonProducts(){
 
         File file = new File("countries.txt");
 
@@ -107,9 +108,9 @@ public class Main {
 
                 fis.close();
 
-                Delivery[] countriesFromJson = gson.fromJson(json, Delivery[].class);
+                Product[] products = gson.fromJson(json, Product[].class);
 
-                controller.deliveries.addAll(Arrays.asList(countriesFromJson));
+                controller.products.addAll(Arrays.asList(products));
 
             } catch (IOException e) {
                 e.printStackTrace();

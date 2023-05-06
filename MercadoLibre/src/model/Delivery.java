@@ -3,7 +3,7 @@ package model;
 import exceptions.*;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.time.*;
 import java.util.Collections;
 
 public class Delivery {
@@ -11,7 +11,7 @@ public class Delivery {
     private String buyerName;
     private ArrayList<Product> products;
     private double totalPrice;
-    private Calendar buyDate;
+    private LocalDateTime buyDate;
 
     public String getBuyerName() {
         return buyerName;
@@ -35,15 +35,15 @@ public class Delivery {
         totalPrice = acum;
     }
 
-    public Calendar getBuyDate() {
+    public LocalDateTime getBuyDate() {
         return buyDate;
     }
 
-    public void setBuyDate(Calendar buyDate) {
+    public void setBuyDate(LocalDateTime buyDate) {
         this.buyDate = buyDate;
     }
 
-    public Delivery(String buyerName, Calendar buyDate) {
+    public Delivery(String buyerName, LocalDateTime buyDate) {
         this.buyerName = buyerName;
         this.totalPrice = 0;
         this.buyDate = buyDate;

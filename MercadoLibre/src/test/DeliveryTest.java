@@ -1,12 +1,12 @@
 package test;
 
 import exceptions.InvalidDataException;
-import exceptions.ObjectNotFoundException;
 import junit.framework.TestCase;
 import model.Delivery;
 import model.Product;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
-import java.util.GregorianCalendar;
 
 public class DeliveryTest extends TestCase {
 
@@ -14,7 +14,9 @@ public class DeliveryTest extends TestCase {
     private Delivery delivery;
 
     private void setUpStage3(){
-        delivery = new Delivery("Juan Sebastian", new GregorianCalendar());
+        LocalDateTime now = LocalDateTime.now();
+        delivery = new Delivery("Juan Sebastian", now);
+
 
         try {
             delivery.addProducts(new Product("ObjProduct1", "Increible producto", 500000,45,4,25));

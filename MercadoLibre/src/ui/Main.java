@@ -67,7 +67,19 @@ public class Main {
                     String tmax = sc.nextLine();
                     double min = Double.parseDouble(tmin);
                     double max = Double.parseDouble(tmax);
-                   String s= controller.searchbyrange(min, max, option);
+                   controller.searchbyrange(min, max, option);
+                    System.out.println("\n" +
+                            "                                   \n" +
+                            "    ------------------------------------------ \n" +
+                            "    SELECT A ORDER METHOD FOR YOUR INFORMATION  \n" +
+                            "    ------------------------------------------ \n" +
+                            "                                         \n" +
+                            "       Select an option \n" +
+                            "         [1] ascendant\n" +
+                            "         [2] descendent\n");
+                    optionTemp = sc.nextLine();
+                    option = Integer.parseInt(optionTemp);
+                    String s=controller.order(option);
                     System.out.println(s);
                     break;
             }

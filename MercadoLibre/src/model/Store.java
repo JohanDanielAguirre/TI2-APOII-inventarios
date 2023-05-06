@@ -118,7 +118,7 @@ public class Store {
         aux=new ArrayList<>();
     }
 
-    public String searchbyrange(double min, double max, int option) {
+    public void searchbyrange(double min, double max, int option) {
         searchbyrange(min, max, option);
         switch (option) {
             case 1:
@@ -141,14 +141,10 @@ public class Store {
                 }
                 break;
         }
-        String n = "";
-        for (Product p : aux) {
-            n += p.toString() + "\n";
-        }
-        return n;
+
     }
 
-        public ArrayList<Product> binarySearchRange(double min, double max) {
+    public ArrayList<Product> binarySearchRange(double min, double max) {
             // Ordenamos la lista en orden ascendente según el precio de los productos
             Collections.sort(products, Comparator.comparingDouble(Product::getPrice));
 
@@ -163,10 +159,10 @@ public class Store {
                 aux.add(products.get(i));
             }
             return aux;
-        }
+    }
 
 // Función auxiliar para encontrar el índice del primer producto cuyo precio es mayor o igual a minPrice
-        private int binarySearchStartIndex(double min) {
+    private int binarySearchStartIndex(double min) {
             int left = 0;
             int right = products.size() - 1;
             int result = products.size();
@@ -180,10 +176,10 @@ public class Store {
                 }
             }
             return result;
-        }
+    }
 
 // Función auxiliar para encontrar el índice del último producto cuyo precio es menor o igual a maxPrice
-        private int binarySearchEndIndex( double max) {
+    private int binarySearchEndIndex( double max) {
             int left = 0;
             int right = products.size() - 1;
             int result = -1;
@@ -197,5 +193,17 @@ public class Store {
                 }
             }
             return result;
+    }
+
+    public String order(int option) {
+        String n = "";
+        if(option==2){
+            Collections.reverse(aux);
         }
+
+        for (Product p : aux) {
+            n += p.toString() + "\n";
+        }
+        return n;
+    }
 }

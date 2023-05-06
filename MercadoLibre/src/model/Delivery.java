@@ -1,7 +1,11 @@
 package model;
 
+import exceptions.InvalidDataException;
+import exceptions.ObjectNotFoundException;
+
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 
 public class Delivery {
 
@@ -18,20 +22,18 @@ public class Delivery {
         this.buyerName = buyerName;
     }
 
-    public ArrayList<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(ArrayList<Product> products) {
-        this.products = products;
-    }
-
     public double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setTotalPrice() {
+       double acum = 0;
+
+        for (Product product : products) {
+            acum += product.getPrice();
+        }
+
+        totalPrice = acum;
     }
 
     public Calendar getBuyDate() {
@@ -42,15 +44,40 @@ public class Delivery {
         this.buyDate = buyDate;
     }
 
-    public Delivery(String buyerName, double totalPrice, Calendar buyDate) {
+    public Delivery(String buyerName, Calendar buyDate) {
         this.buyerName = buyerName;
-        this.totalPrice = totalPrice;
+        this.totalPrice = 0;
         this.buyDate = buyDate;
-
         products = new ArrayList<>();
+
     }
 
-    public void addProducts(Product product){
+    private void sort(){
+        Collections.sort(products);
+    }
+
+
+
+    public ArrayList<Product> getProducts() {
+        return products;
+    }
+
+    public void removeProduct(int i){
+        if (i> -1){
+            products.remove(i);
+            setTotalPrice();
+        }
+
+    }
+
+    public void addProducts(Product product) throws InvalidDataException {
+
+        if (product.getPrice() < 0){
+            throw new InvalidDataException("No se pueden añadir valores negativos en precio");
+        }
+
         products.add(product);
+        setTotalPrice();
+        sort();
     }
 }

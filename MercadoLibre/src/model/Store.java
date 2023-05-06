@@ -12,6 +12,8 @@ public class Store {
     public ArrayList<Product> products;
     public ArrayList<Delivery> deliveries;
 
+    private ArrayList<Product> aux;
+
     public void addProducts(String nombre, String descripcion, double precio, int cantidadDisponible, int categorias,int timesBought){
 
         Product product = new Product(nombre,descripcion,precio,cantidadDisponible,categorias,timesBought);
@@ -111,5 +113,35 @@ public class Store {
     public Store() {
         products = new ArrayList<>();
         deliveries = new ArrayList<>();
+        aux=new ArrayList<>();
+    }
+
+    public void searchbyrange(int min, int max, int option) {
+        fillarray((ArrayList<Product>) aux,products);
+        switch (option){
+            case 1:
+                searchprice(min,max);
+                break;
+            case 2:
+                searchquantity(min,max);
+                break;
+            case 3:
+                searchbrought(min,max);
+                break;
+        }
+    }
+
+    private void searchbrought(int min, int max) {
+    }
+
+    private void searchquantity(int min, int max) {
+    }
+
+    private void searchprice(int min, int max) {
+    }
+
+    // este metodo puede ser reemplazado si no se le encuentra otros casos donde se implemente
+    private void fillarray(ArrayList<Product> farray,ArrayList<Product> darray){
+        farray.addAll(darray);
     }
 }

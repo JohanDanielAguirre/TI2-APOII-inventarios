@@ -28,28 +28,52 @@ public class Main {
 
     }
 
-    public void mainMenu(){
-        System.out.println("\n" +
-            "                                   \n"+
-            "    +++++++++++++++++++++++++ \n"+
-            "    WELCOME TO MERCADO LIBRE \n"+
-            "    +++++++++++++++++++++++++ \n"+
-           "                                         \n"+
-           "       Select an option \n"+
-           "         [1] Manage products\n"+
-           "         [2] Manage deliveries\n"
-                
-                );
-        String optionTemp = sc.nextLine();
-        int option = Integer.parseInt(optionTemp);
-        switch (option){
-            case 1 :
-                break;
-            case 2 :
-                break;
+    public void mainMenu() {
+        try {
+            System.out.println("\n" +
+                    "                                   \n" +
+                    "    +++++++++++++++++++++++++ \n" +
+                    "    WELCOME TO MERCADO LIBRE \n" +
+                    "    +++++++++++++++++++++++++ \n" +
+                    "                                         \n" +
+                    "       Select an option \n" +
+                    "         [1] Manage products\n" +
+                    "         [2] Manage deliveries\n" +
+                    "         [3] Search products\n"
+            );
+            String optionTemp = sc.nextLine();
+            int option = Integer.parseInt(optionTemp);
+            switch (option) {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    System.out.println("\n" +
+                            "                                   \n" +
+                            "    --------------------------------------- \n" +
+                            "    WELCOME TO MERCADO LIBRE SEARCH MODULE \n" +
+                            "    --------------------------------------- \n" +
+                            "                                         \n" +
+                            "       Select an option \n" +
+                            "         [1] search by price\n" +
+                            "         [2] search by quantity\n" +
+                            "         [3] search by time bought\n");
+                    optionTemp = sc.nextLine();
+                    option = Integer.parseInt(optionTemp);
+                    System.out.println("ingrese el valor minimo y maximo");
+                    String tmin = sc.nextLine();
+                    String tmax = sc.nextLine();
+                    int min = Integer.parseInt(tmin);
+                    int max = Integer.parseInt(tmax);
+                    controller.searchbyrange(min, max, option);
+                    break;
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println("algo incorrecto se ingreso por favor vuelva a intentarlo");
         }
     }
-
 
     public void writeGsonDeliveries(){
 

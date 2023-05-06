@@ -118,37 +118,84 @@ public class Store {
         aux=new ArrayList<>();
     }
 
-    public void searchbyrange(int min, int max, int option) {
+    public String searchbyrange(double min, double max, int option) {
         searchbyrange(min, max, option);
         switch (option) {
             case 1:
-                Collections.sort(products, Comparator.comparingDouble(Product::getPrice));
-                for (Product p:products) {
-                    if(p.getPrice()>=min && p.getPrice()<=max){
-                        aux.add(p);
-                    }
-                }
+                binarySearchRange(min,max);
                 break;
             case 2:
                 Collections.sort(products, Comparator.comparingInt(Product::getInventory));
-                for (Product p:products) {
-                    if(p.getInventory()>=min && p.getInventory()<=max){
+                for (Product p : products) {
+                    if (p.getInventory() >= min && p.getInventory() <= max) {
                         aux.add(p);
                     }
                 }
                 break;
             case 3:
                 Collections.sort(products, Comparator.comparingInt(Product::getTimesBought));
-                for (Product p:products) {
-                    if(p.getTimesBought()>=min && p.getTimesBought()<=max){
+                for (Product p : products) {
+                    if (p.getTimesBought() >= min && p.getTimesBought() <= max) {
                         aux.add(p);
                     }
                 }
                 break;
         }
-        String n="";
-        for (Product p:aux) {
-            n+=p.toString()+"\n";
+        String n = "";
+        for (Product p : aux) {
+            n += p.toString() + "\n";
         }
+        return n;
     }
+
+        public ArrayList<Product> binarySearchRange(double min, double max) {
+            // Ordenamos la lista en orden ascendente según el precio de los productos
+            Collections.sort(products, Comparator.comparingDouble(Product::getPrice));
+
+            // Encontramos el índice del primer producto que tiene un precio mayor o igual a minPrice
+            int startIndex = binarySearchStartIndex(min);
+
+            // Encontramos el índice del último producto que tiene un precio menor o igual a maxPrice
+            int endIndex = binarySearchEndIndex(max);
+
+            // Creamos una nueva lista con los productos cuyo precio está dentro del rango especificado
+            for (int i = startIndex; i <= endIndex; i++) {
+                aux.add(products.get(i));
+            }
+            return aux;
+        }
+
+// Función auxiliar para encontrar el índice del primer producto cuyo precio es mayor o igual a minPrice
+        private int binarySearchStartIndex(double min) {
+            int left = 0;
+            int right = products.size() - 1;
+            int result = products.size();
+            while (left <= right) {
+                int mid = left + (right - left) / 2;
+                if (products.get(mid).getPrice() >= min) {
+                    result = mid;
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+            return result;
+        }
+
+// Función auxiliar para encontrar el índice del último producto cuyo precio es menor o igual a maxPrice
+        private int binarySearchEndIndex( double max) {
+            int left = 0;
+            int right = products.size() - 1;
+            int result = -1;
+            while (left <= right) {
+                int mid = left + (right - left) / 2;
+                if (products.get(mid).getPrice() <= max) {
+                    result = mid;
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+            }
+            return result;
+        }
 }

@@ -65,9 +65,10 @@ public class Main {
                     System.out.println("ingrese el valor minimo y maximo");
                     String tmin = sc.nextLine();
                     String tmax = sc.nextLine();
-                    int min = Integer.parseInt(tmin);
-                    int max = Integer.parseInt(tmax);
-                    controller.searchbyrange(min, max, option);
+                    double min = Double.parseDouble(tmin);
+                    double max = Double.parseDouble(tmax);
+                   String s= controller.searchbyrange(min, max, option);
+                    System.out.println(s);
                     break;
             }
 

@@ -255,6 +255,18 @@ public class Store {
         Collections.sort(arrayList,Comparator.comparingInt(Product::getTimesBought));
     }
 
+    public void sortResultsByBuyerName(ArrayList<Delivery> deliveries){
+        Collections.sort(deliveries, comparators2[0]);
+    }
+
+    public void sortResultsByDate(ArrayList<Delivery> deliveries){
+        Collections.sort(deliveries,comparators2[2]);
+    }
+
+    public void sortResultsByTotalPrice(ArrayList<Delivery> deliveries){
+        Collections.sort(deliveries,comparators2[1]);
+    }
+
     public void bubbleSortDescendingOrder() {
         for (int i = 0; i < products.size(); i++) {
             for (int j = 1; j < products.size()-i; j++) {

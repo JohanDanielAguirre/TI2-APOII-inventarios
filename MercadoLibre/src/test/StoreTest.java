@@ -233,7 +233,7 @@ public class StoreTest extends TestCase {
         }
     }
 
-    public void testOrganozeListAscending(){
+    public void testOrganizeListAscending(){
         setUpStage6();
         setUpStage5();
         ArrayList<Product> products = store.products;
@@ -245,7 +245,7 @@ public class StoreTest extends TestCase {
 
     }
 
-    public void testOrganozeListDescending(){
+    public void testOrganizeProductsListDescending(){
         setUpStage6();
         setUpStage5();
 
@@ -259,31 +259,17 @@ public class StoreTest extends TestCase {
 
     }
 
-
-
-    /*
-    public void testmodifyinavliddata(){
-        setUpStage4();
-        try {
-            store.modifyDelivery();
-            fail();
-        }catch (InvalidDataException  e){
-            assertNotNull(e);
-        }
-    }
-
-    public void testmodifyobjecterror(){
+    public void testOrganizeDeliveriesListDescending(){
 
         setUpStage6();
-        try {
-            store.modifyDelivery();
-            fail();
-        }catch (NullPointerException | InvalidDataException e){
-            assertNotNull(e);
-        }
-    }
+        setUpStage5();
+        setUpStage4();
 
-*/
+        ArrayList<Delivery> deliveries = store.deliveries;
+
+
+
+    }
 
 
 

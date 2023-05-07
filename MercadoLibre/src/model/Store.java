@@ -31,7 +31,7 @@ public class Store {
         }
 
 
-        sortProducts();
+        sortProducts(products);
     }
 
     public void fillComparators(){
@@ -135,7 +135,7 @@ public class Store {
            wasErased = true;
        }
 
-        sortProducts();
+        sortProducts(products);
 
         return wasErased;
 
@@ -239,23 +239,23 @@ public class Store {
 
     }
 
-    public void sortProducts(){
-        Collections.sort(products);
+    public void sortProducts(ArrayList<Product> arrayList){
+        Collections.sort(arrayList);
     }
 
-    public void sortResultsByName(){
-        Collections.sort(aux,comparators[0]);
+    public void sortResultsByName(ArrayList<Product> arrayList){
+        Collections.sort(arrayList,comparators[0]);
     }
 
-    public void sortResultsByPrice(){
-        Collections.sort(aux,Comparator.comparingDouble(Product::getPrice));
+    public void sortResultsByPrice(ArrayList<Product> arrayList){
+        Collections.sort(arrayList,Comparator.comparingDouble(Product::getPrice));
     }
 
-    public void sortResultsByTimesBought(){
-        Collections.sort(aux,Comparator.comparingInt(Product::getTimesBought));
+    public void sortResultsByTimesBought(ArrayList<Product> arrayList){
+        Collections.sort(arrayList,Comparator.comparingInt(Product::getTimesBought));
     }
 
-    private void bubbleSortDescendingOrder() {
+    public void bubbleSortDescendingOrder() {
         for (int i = 0; i < products.size(); i++) {
             for (int j = 1; j < products.size()-i; j++) {
                 if(products.get(j).compareTo(products.get(j-1))>0){

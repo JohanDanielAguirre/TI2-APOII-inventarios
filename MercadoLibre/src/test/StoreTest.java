@@ -5,7 +5,9 @@ import junit.framework.TestCase;
 import model.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 
 
 public class StoreTest extends TestCase {
@@ -230,6 +232,33 @@ public class StoreTest extends TestCase {
             assertNotNull(e);
         }
     }
+
+    public void testOrganozeListAscending(){
+        setUpStage6();
+        setUpStage5();
+        ArrayList<Product> products = store.products;
+        Collections.sort(products);
+        store.sortProducts(store.products);
+
+        assertEquals(products,store.products);
+
+
+    }
+
+    public void testOrganozeListDescending(){
+        setUpStage6();
+        setUpStage5();
+
+        ArrayList<Product> products = store.products;
+        Collections.sort(products);
+        Collections.reverse(products);
+        store.bubbleSortDescendingOrder();
+
+        assertEquals(products,store.products);
+
+
+    }
+
 
 
     /*

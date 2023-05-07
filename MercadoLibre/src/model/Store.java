@@ -426,7 +426,6 @@ public class Store {
         // No se ha encontrado ningún producto que empiece por la letra inicial dada
         return -1;
     }
-
     private static int binarySearchEnd(ArrayList<Product> products, char end) {
         int low = 0;
         int high = products.size() - 1;
@@ -449,5 +448,60 @@ public class Store {
 
         // No se ha encontrado ningún producto que termine por la letra final dada
         return -1;
+    }
+    public ArrayList<Product> searchInRange(String prefixStart, String prefixEnd) {
+        // Encontrar el índice del primer y último elemento en el rango de búsqueda
+        int startIndex = binarySearchStart(prefixStart);
+        int endIndex = binarySearchEnd(prefixEnd);
+
+        // Recorrer los elementos entre los índices de inicio y fin
+        for (int i = startIndex; i <= endIndex; i++) {
+            Product currentProduct = products.get(i);
+            // Agregar los elementos cuyo nombre comienza con el prefijo inicial
+            if (currentProduct.getName().startsWith(prefixStart)) {
+                aux.add(currentProduct);
+            }
+        }
+
+        // Devolver los resultados encontrados
+        return aux;
+    }
+
+    // Encontrar el índice del primer elemento en el rango de búsqueda
+    private int binarySearchStart(String prefixStart) {
+        int left = 0;
+        int right = products.size() - 1;
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            String midName = products.get(mid).getName();
+
+            if (midName.compareTo(prefixStart) < 0) {
+                left = mid + 1; // Buscar en la mitad derecha
+            } else {
+                right = mid; // Buscar en la mitad izquierda
+            }
+        }
+
+        return left; // Devolver el índice encontrado
+    }
+
+    // Encontrar el índice del último elemento en el rango de búsqueda
+    private int binarySearchEnd(String prefixEnd) {
+        int left = 0;
+        int right = products.size() - 1;
+
+        while (left < right) {
+            int mid = left + (right - left + 1) / 2;
+            String midName = products.get(mid).getName();
+
+            if (midName.compareTo(prefixEnd) > 0) {
+                right = mid - 1; // Buscar en la mitad izquierda
+            } else {
+                left = mid; // Buscar en la mitad derecha
+            }
+        }
+
+        return right; // Devolver el índice encontrado
     }
 }

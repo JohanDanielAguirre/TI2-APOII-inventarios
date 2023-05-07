@@ -153,14 +153,6 @@ public class StoreTest extends TestCase {
 
         assertFalse(store.deleteProduct(name));
     }
-    /*
-
-
-    public void testOrganizeListAscendant(){
-        setUpStage6();
-        setUpStage5();
-    }
-    */
 
     public void testcreatedelivery(){
         setUpStage6();

@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-
+@SuppressWarnings("unchecked")
 public class Store {
 
     public ArrayList<Product> products;
     public ArrayList<Delivery> deliveries;
-
+    private final Comparator<Product>[] comparators;
     private ArrayList<Product> aux;
 
     public void addProducts(String nombre, String descripcion, double precio, int cantidadDisponible, int categorias,int timesBought){
@@ -20,7 +20,7 @@ public class Store {
         int index;
 
         try {
-            index = searchProductSpecific(nombre);
+            index = searchProductSpecific(0,product);
             products.get(index).setInventory(cantidadDisponible);
         } catch (ObjectNotFoundException e) {
             products.add(product);
@@ -32,12 +32,47 @@ public class Store {
         sortProducts();
     }
 
+    public void fillComparators(){
+
+        comparators[0] = new Comparator<Product>() {
+            @Override
+            public int compare(Product o1, Product o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        };
+
+        comparators[1] = new Comparator<Product>() {
+            @Override
+            public int compare(Product o1, Product o2) {
+                return (int) (o1.getPrice()-o2.getPrice());
+            }
+        };
+
+        comparators[2] = new Comparator<Product>() {
+            @Override
+            public int compare(Product o1, Product o2) {
+                return o1.getCategory().compareTo(o2.getCategory());
+            }
+        };
+
+        comparators[3] = new Comparator<Product>() {
+            @Override
+            public int compare(Product o1, Product o2) {
+                return o1.getTimesBought() - o2.getTimesBought();
+            }
+        };
+
+    }
+
+
+
     public boolean deleteProduct(String name){
        boolean wasErased = false;
         Product toDelete = null;
+        Product joe = new Product(name,"",0,0,0,0);
         int i = 0;
         try {
-            i = searchProductSpecific(name);
+            i = searchProductSpecific(0,joe);
             toDelete = products.get(i);
         } catch (ObjectNotFoundException e) {
             System.out.println(e.getMessage());
@@ -59,15 +94,13 @@ public class Store {
     public void createDelivery(String buyerName, double totalPrice, Calendar buyDate){
 
 
-
     }
 
     public void addProductToDelivery(){
 
     }
 
-    public int searchProductSpecific(String name) throws ObjectNotFoundException {
-
+    public int searchProductSpecific(int compare, Product product) throws ObjectNotFoundException {
         int left = 0;
 
         int right = products.size()-1;
@@ -78,11 +111,11 @@ public class Store {
 
             Product midP = products.get(mid);
 
-            if (midP.getName().equals(name)){
+            if (comparators[compare].compare(product,midP) == 0){
                 return mid;
-            }else if(name.compareTo(midP.getName()) > 0){
+            }else if(comparators[compare].compare(product,midP) > 0){
                 left = mid+1;
-            }else if(name.compareTo(midP.getName()) <  0) {
+            }else if(comparators[compare].compare(product,midP) <  0) {
                 right = mid-1;
             }
 
@@ -116,12 +149,13 @@ public class Store {
         products = new ArrayList<>();
         deliveries = new ArrayList<>();
         aux=new ArrayList<>();
+        comparators = new Comparator[4];
+        fillComparators();
     }
 
 
 
     public void searchbyrange(double min, double max, int option) {
-        searchbyrange(min, max, option);
         switch (option) {
             case 1:
                 binarySearchRange(min,max);
@@ -163,7 +197,7 @@ public class Store {
             return aux;
     }
 
-// Función auxiliar para encontrar el índice del primer producto cuyo precio es mayor o igual a minPrice
+
     private int binarySearchStartIndex(double min) {
             int left = 0;
             int right = products.size() - 1;

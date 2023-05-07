@@ -91,7 +91,7 @@ public class StoreTest extends TestCase {
         store.addProducts("Vaso de cristal","Vaso super fino",250000,250,4,0);
 
         try {
-            int index = store.searchProductSpecific("Vaso de cristal");
+            int index = store.searchProductSpecific(0,toAdd);
             assertEquals(toAdd.getName(),store.products.get(index).getName());
         } catch (ObjectNotFoundException e) {
             fail();
@@ -104,7 +104,12 @@ public class StoreTest extends TestCase {
     public void testAddProductExist(){
         setUpStage6();
         setUpStage5();
-
+        Product product = new Product("Bolso Louis Vuitton",
+                "Bolso de alta gama con cuero suizo",
+                250000,
+                25,
+                3,
+                25);
         store.addProducts("Bolso Louis Vuitton",
                 "Bolso de alta gama con cuero suizo",
                 250000,
@@ -113,7 +118,7 @@ public class StoreTest extends TestCase {
                 25);
 
         try {
-            int index = store.searchProductSpecific("Bolso Louis Vuitton");
+            int index = store.searchProductSpecific(0,product);
             assertEquals(275,store.products.get(index).getInventory());
         } catch (ObjectNotFoundException e) {
             fail();

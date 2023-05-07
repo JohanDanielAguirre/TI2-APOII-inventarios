@@ -29,7 +29,7 @@ public class Store {
         }
 
 
-        sort();
+        sortProducts();
     }
 
     public boolean deleteProduct(String name){
@@ -50,7 +50,7 @@ public class Store {
            wasErased = true;
        }
 
-        sort();
+        sortProducts();
 
         return wasErased;
 
@@ -92,7 +92,7 @@ public class Store {
 
     }
 
-    public void sort(){
+    public void sortProducts(){
         Collections.sort(products);
     }
 
@@ -117,6 +117,8 @@ public class Store {
         deliveries = new ArrayList<>();
         aux=new ArrayList<>();
     }
+
+
 
     public void searchbyrange(double min, double max, int option) {
         searchbyrange(min, max, option);

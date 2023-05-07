@@ -1,7 +1,7 @@
 package model;
 
 import exceptions.*;
-
+import model.*;
 public class Product implements Comparable<Product>{
 
         private String name;

@@ -364,4 +364,80 @@ public class Store {
         }
         return n;
     }
+
+    public  ArrayList<Product> searchByRange(char start, char end) {
+        // Ordena los productos en base a sus nombres
+        products.sort(Comparator.comparing(Product::getName));
+
+        // Encuentra el índice del primer producto que empieza por la letra inicial dada
+        int startIndex = binarySearchStart(products, start);
+
+        // Si no se encuentra ningún producto, no hay nada que hacer
+        if (startIndex == -1) {
+            return aux;
+        }
+
+        // Encuentra el índice del último producto que termina por la letra final dada
+        int endIndex = binarySearchEnd(products, end);
+
+        // Si no se encuentra ningún producto, no hay nada que hacer
+        if (endIndex == -1) {
+            return aux;
+        }
+
+        // Recorre los productos entre los índices encontrados y añádelos a los resultados
+        for (int i = startIndex; i <= endIndex; i++) {
+            aux.add(products.get(i));
+        }
+
+        return aux;
+    }
+
+    private static int binarySearchStart(ArrayList<Product> products, char start) {
+        int low = 0;
+        int high = products.size() - 1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            char firstChar = products.get(mid).getName().charAt(0);
+
+            if (firstChar == start) {
+                // El primer producto que empieza por la letra inicial dada
+                return mid;
+            } else if (firstChar < start) {
+                // La letra inicial dada está más adelante en el alfabeto, busca en la mitad derecha
+                low = mid + 1;
+            } else {
+                // La letra inicial dada está más atrás en el alfabeto, busca en la mitad izquierda
+                high = mid - 1;
+            }
+        }
+
+        // No se ha encontrado ningún producto que empiece por la letra inicial dada
+        return -1;
+    }
+
+    private static int binarySearchEnd(ArrayList<Product> products, char end) {
+        int low = 0;
+        int high = products.size() - 1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            char lastChar = products.get(mid).getName().charAt(products.get(mid).getName().length() - 1);
+
+            if (lastChar == end) {
+                // El último producto que termina por la letra final dada
+                return mid;
+            } else if (lastChar < end) {
+                // La letra final dada está más adelante en el alfabeto, busca en la mitad derecha
+                low = mid + 1;
+            } else {
+                // La letra final dada está más atrás en el alfabeto, busca en la mitad izquierda
+                high = mid - 1;
+            }
+        }
+
+        // No se ha encontrado ningún producto que termine por la letra final dada
+        return -1;
+    }
 }

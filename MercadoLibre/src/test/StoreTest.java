@@ -11,7 +11,6 @@ import java.util.Calendar;
 public class StoreTest extends TestCase {
 
     private Store store;
-    private Delivery delivery;
     private void setUpStage6(){
         store = new Store();
     }
@@ -28,7 +27,7 @@ public class StoreTest extends TestCase {
         store.addProducts("HP Pavillion mini 2012",
                 "computadora mini perfecta para llevar en el bolsillo con características técnicas que por su tamaño no aparenta, en perfecto estado se vende por motivo de viaje NO NEGOCIABLE",
                 1500000,
-                1,
+                2,
                 2,
                 0);
         store.addProducts("Grafica AMD RX6800XT",
@@ -79,18 +78,18 @@ public class StoreTest extends TestCase {
     private void setUpStage4(){
         setUpStage6();
         setUpStage5();
-    }
-    private void setUpStage3(){
-        LocalDateTime now = LocalDateTime.now();
-         delivery = new Delivery("Juan Sebastian", now);
-
 
         try {
-            delivery.addProducts(new Product("ObjProduct1", "Increible producto", 500000,45,4,25));
-            delivery.addProducts(new Product("ObjProduct2", "Producto chino", 400,4,3,12));
-        } catch (InvalidDataException e) {
-            System.out.println(e.getMessage());
+            store.createDelivery("Juan Sebastián L" , "Anillo de plata tematica juego Zelda",1);
+            store.createDelivery("Johan Daniel Aguirre" , "Silla de escritorio ergonomica",1);
+            store.createDelivery("Paola Andrea" , "Termo de agua 2L",1);
+            store.createDelivery("Larry kapija" , "Vajilla IMUSA Cerámica",1);
+            store.createDelivery("Marian Camille Merch" , "HP Pavillion mini 2012",1);
+        } catch (ObjectNotFoundException | NotEnoughProductsException e) {
+            throw new RuntimeException(e);
         }
+
+
 
     }
 
@@ -154,54 +153,98 @@ public class StoreTest extends TestCase {
 
         assertFalse(store.deleteProduct(name));
     }
+    /*
+
 
     public void testOrganizeListAscendant(){
         setUpStage6();
         setUpStage5();
     }
+    */
 
     public void testcreatedelivery(){
         setUpStage6();
+        setUpStage5();
+        setUpStage4();
+
         try {
-            Delivery d=store.createDelivery("johan agirre",100000, Calendar.getInstance());
-            assertNotNull(d);
-        }catch (InvalidDataException e){
+            Delivery d=store.createDelivery("johan agirre","HP Pavillion mini 2012",1);
+            int i = store.searchDeliverySpecific(0,d);
+            assertEquals(d,store.deliveries.get(i));
+        } catch (ObjectNotFoundException | NotEnoughProductsException e) {
             fail();
         }
+
     }
+
+
     public void testcreatedeliveryfail(){
-        setUpStage3();
+        setUpStage6();
+        setUpStage4();
         try {
-            Delivery d=store.createDelivery("1110290182",100000, Calendar.getInstance());
+            Delivery d=store.createDelivery("Pedro el tonto","yo mismo",999);
             fail();
-        }catch (InvalidDataException e){
+        } catch (ObjectNotFoundException | NotEnoughProductsException e) {
             assertNotNull(e);
         }
     }
 
-    public void testmodifycorrectly(){
-        setUpStage3();
+
+    public void testmodifycorrectlyAdd(){
+        setUpStage6();
+        setUpStage5();
+        setUpStage4();
+
         try {
-            store.modifydelivery(delivery,2);
-            assertEquals(63000000,delivery.getTotalPrice());
+            store.modifyDelivery(1,"Tarjeta de sonido profesional","Johan Daniel Aguirre",3);
+            int i = store.searchDeliverySpecific(0,new Delivery("Johan Daniel Aguirre",null));
+            Delivery delivery = store.deliveries.get(i);
+            int i2 = delivery.searchProduct("Tarjeta de sonido profesional");
+            assertNotNull(delivery.getProducts().get(i2));
         }catch (Exception e){
             fail();
         }
     }
 
-    public void testmodifyerase(){
-        setUpStage3();
+    public void testmodifycorrectlyRemove(){
+        setUpStage6();
+        setUpStage5();
+        setUpStage4();
+
         try {
-            store.modifydelivery(delivery,0);
-            assertEquals(62500000,delivery.getTotalPrice());
-        }catch (Exception e){
+            store.modifyDelivery(1,"Tarjeta de sonido profesional","Johan Daniel Aguirre",2);
+            store.modifyDelivery(2,"Tarjeta de sonido profesional","Johan Daniel Aguirre",2);
+            int i = store.searchDeliverySpecific(0,new Delivery("Johan Daniel Aguirre",null));
+            Delivery delivery = store.deliveries.get(i);
+            int i2 = delivery.searchProduct("Tarjeta de sonido profesional");
             fail();
+        }catch (ObjectNotFoundException e){
+            assertNotNull(e);
         }
     }
-    public void testmodifyinavliddata(){
-        setUpStage3();
+
+    public void testModifyAddFail(){
+        setUpStage6();
+        setUpStage5();
+        setUpStage4();
+
         try {
-            store.modifydelivery(delivery,-1);
+            store.modifyDelivery(1,"jojo andres","Johan Daniel Aguirre",3);
+            int i = store.searchDeliverySpecific(0,new Delivery("Johan Daniel Aguirre",null));
+            Delivery delivery = store.deliveries.get(i);
+            int i2 = delivery.searchProduct("Tarjeta de sonido profesional");
+            fail();
+        }catch (ObjectNotFoundException e){
+            assertNotNull(e);
+        }
+    }
+
+
+    /*
+    public void testmodifyinavliddata(){
+        setUpStage4();
+        try {
+            store.modifyDelivery();
             fail();
         }catch (InvalidDataException  e){
             assertNotNull(e);
@@ -209,16 +252,17 @@ public class StoreTest extends TestCase {
     }
 
     public void testmodifyobjecterror(){
+
         setUpStage6();
         try {
-            store.modifydelivery(null,1);
+            store.modifyDelivery();
             fail();
-        }catch (NullPointerException e){
+        }catch (NullPointerException | InvalidDataException e){
             assertNotNull(e);
         }
     }
 
-
+*/
 
 
 

@@ -13,6 +13,7 @@ public class Store {
     public ArrayList<Product> products;
     public ArrayList<Delivery> deliveries;
     private final Comparator<Product>[] comparators;
+    private final Comparator<Delivery>[] comparators2;
     private ArrayList<Product> aux;
 
     public void addProducts(String nombre, String descripcion, double precio, int cantidadDisponible, int categorias,int timesBought){
@@ -63,6 +64,54 @@ public class Store {
             }
         };
 
+        comparators[4] = new Comparator<Product>() {
+            @Override
+            public int compare(Product o1, Product o2) {
+                return o1.compareTo(o2);
+            }
+        };
+
+        comparators[5] = new Comparator<Product>() {
+            @Override
+            public int compare(Product o1, Product o2) {
+                return o1.getInventory() - o2.getInventory();
+            }
+        };
+
+    }
+    public void fillComparators2(){
+
+        comparators2[0] = new Comparator<Delivery>() {
+            @Override
+            public int compare(Delivery o1, Delivery o2) {
+                return o1.getBuyerName().compareTo(o2.getBuyerName());
+            }
+        };
+
+        comparators2[1] = new Comparator<Delivery>() {
+            @Override
+            public int compare(Delivery o1, Delivery o2) {
+                return (int) (o1.getTotalPrice() - o2.getTotalPrice());
+            }
+        };
+
+        comparators2[2] = new Comparator<Delivery>() {
+            @Override
+            public int compare(Delivery o1, Delivery o2) {
+                return o1.getBuyDate().compareTo(o2.getBuyDate());
+            }
+        };
+
+    }
+    public void modifyDelivery(int op,String name,String buyerName,int requested){
+        switch (op){
+            case 1:
+                addProductToDelivery(name,buyerName,requested);
+                break;
+            case 2:
+                removeProductOfDelivery(name,buyerName, requested);
+                break;
+        }
     }
 
 
@@ -92,18 +141,51 @@ public class Store {
 
     }
 // este metodo se eralizo solo para que pase los test debe ser arreglado y modificado
-    public Delivery createDelivery(String buyerName, double totalPrice, Calendar buyDate) throws  InvalidDataException{
-            try{
-                Integer.parseInt(buyerName);
-                Delivery d= new Delivery(buyerName, LocalDateTime.now());
-                return d;
-            }catch (NumberFormatException e){
-                throw new InvalidDataException("data not accepted");
-            }
+    public Delivery createDelivery(String buyerName, String productName,int requested) throws ObjectNotFoundException, NotEnoughProductsException{
+        Product product = new Product(productName,"",0,0,0,0);
+        Delivery d= null;
+
+        int i = searchProductSpecific(0,product);
+        products.get(i).setInventory(-requested);
+        d= new Delivery(buyerName, LocalDateTime.now());
+        deliveries.add(d);
+        Collections.sort(deliveries);
+        addProductToDelivery(productName,buyerName,requested);
+
+        return d;
 
     }
 
-    public void addProductToDelivery(){
+    public void addProductToDelivery(String name,String buyerName,int requested){
+        Product product = new Product(name,"",0,0,1,0);
+        Delivery delivery = new Delivery(buyerName,null);
+        try {
+            int i = searchProductSpecific(0,product);
+            int j = searchDeliverySpecific(0,delivery);
+            for (int k = 0; k < requested; k++) {
+                deliveries.get(j).addProducts(products.get(i));
+            }
+
+            if (products.get(i).getInventory() <= 0){
+                deleteProduct(product.getName());
+            }
+            
+        } catch (ObjectNotFoundException | InvalidDataException e) {
+            System.out.println(e.getMessage());
+        }
+                                                                                                                                                                                
+
+    }
+
+    public void removeProductOfDelivery(String name,String buyerName, int request){
+        Delivery delivery = new Delivery(buyerName,null);
+        try {
+            int j = searchDeliverySpecific(0,delivery);
+            deliveries.get(j).removeProduct(name,request);
+        } catch (ObjectNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+
 
     }
 
@@ -128,7 +210,32 @@ public class Store {
 
         }
 
-        throw new ObjectNotFoundException("No se encontro el objeto");
+        throw new ObjectNotFoundException("No se encontro el objeto Producto");
+
+    }
+
+    public int searchDeliverySpecific(int compare, Delivery product) throws ObjectNotFoundException {
+        int left = 0;
+
+        int right = deliveries.size()-1;
+
+        while(left <= right){
+
+            int mid = (left+right)/2;
+
+            Delivery midP = deliveries.get(mid);
+
+            if (comparators2[compare].compare(product,midP) == 0){
+                return mid;
+            }else if(comparators2[compare].compare(product,midP) > 0){
+                left = mid+1;
+            }else if(comparators2[compare].compare(product,midP) <  0) {
+                right = mid-1;
+            }
+
+        }
+
+        throw new ObjectNotFoundException("No se encontro el objeto Pedido");
 
     }
 
@@ -156,62 +263,68 @@ public class Store {
         products = new ArrayList<>();
         deliveries = new ArrayList<>();
         aux=new ArrayList<>();
-        comparators = new Comparator[4];
+        comparators = new Comparator[6];
+        comparators2 = new Comparator[3];
         fillComparators();
+        fillComparators2();
     }
 
 
 
-    public void searchbyrange(double min, double max, int option) {
+    public void searchbyrange(int min, int max, int option) {
+
+        Product productMin;
+        Product productMax;
+
         switch (option) {
             case 1:
-                binarySearchRange(min,max);
+                Collections.sort(products, Comparator.comparingDouble(Product::getPrice));
+                productMin = new Product("","", min,0,1,0);
+                productMax = new Product("","", max,0,1,0);
+                binarySearchRange(1,productMin,productMax);
                 break;
             case 2:
                 Collections.sort(products, Comparator.comparingInt(Product::getInventory));
-                for (Product p : products) {
-                    if (p.getInventory() >= min && p.getInventory() <= max) {
-                        aux.add(p);
-                    }
-                }
+                productMin = new Product("","", 0,min,1,0);
+                productMax = new Product("","", 0,max,1,0);
+                binarySearchRange(5,productMin,productMax);
                 break;
             case 3:
                 Collections.sort(products, Comparator.comparingInt(Product::getTimesBought));
-                for (Product p : products) {
-                    if (p.getTimesBought() >= min && p.getTimesBought() <= max) {
-                        aux.add(p);
-                    }
-                }
+                productMin = new Product("","", 0,0,1,min);
+                productMax = new Product("","", 0,0,1,max);
+                binarySearchRange(3,productMin,productMax);
                 break;
         }
 
     }
 
-    public ArrayList<Product> binarySearchRange(double min, double max) {
+    public void binarySearchRange(int compare, Product productMin, Product productMax) {
             // Ordenamos la lista en orden ascendente según el precio de los productos
-            Collections.sort(products, Comparator.comparingDouble(Product::getPrice));
 
             // Encontramos el índice del primer producto que tiene un precio mayor o igual a minPrice
-            int startIndex = binarySearchStartIndex(min);
+            int startIndex = binarySearchStartIndex(compare,productMin);
 
             // Encontramos el índice del último producto que tiene un precio menor o igual a maxPrice
-            int endIndex = binarySearchEndIndex(max);
+            int endIndex = binarySearchEndIndex(compare, productMax);
 
             // Creamos una nueva lista con los productos cuyo precio está dentro del rango especificado
             for (int i = startIndex; i <= endIndex; i++) {
                 aux.add(products.get(i));
             }
-            return aux;
     }
 
 
-    private int binarySearchStartIndex(double min) {
+    private int binarySearchStartIndex(int compare, Product product) {
             int left = 0;
             int right = products.size() - 1;
             int result = products.size();
             while (left <= right) {
                 int mid = left + (right - left) / 2;
-                if (products.get(mid).getPrice() >= min) {
+
+                Product midP = products.get(mid);
+
+                if (comparators[compare].compare(product,midP) >= 0) {
                     result = mid;
                     right = mid - 1;
                 } else {
@@ -222,13 +335,15 @@ public class Store {
     }
 
 // Función auxiliar para encontrar el índice del último producto cuyo precio es menor o igual a maxPrice
-    private int binarySearchEndIndex( double max) {
+    private int binarySearchEndIndex(int compare, Product product) {
             int left = 0;
             int right = products.size() - 1;
             int result = -1;
             while (left <= right) {
                 int mid = left + (right - left) / 2;
-                if (products.get(mid).getPrice() <= max) {
+
+                Product midP = products.get(mid);
+                if (comparators[compare].compare(product,midP) <= 0) {
                     result = mid;
                     left = mid + 1;
                 } else {

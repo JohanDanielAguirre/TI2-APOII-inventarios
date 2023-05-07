@@ -58,14 +58,14 @@ public class DeliveryTest extends TestCase {
     public void testRemoveProductObjectExists(){
         setUpStage3();
 
-        delivery.removeProduct(1);
+        delivery.removeProduct("ObjProduct2",1);
 
         assertEquals(500000.0,delivery.getTotalPrice());
     }
     public void testRemoveProductObjectNotExists(){
         setUpStage3();
 
-        delivery.removeProduct(-1);
+        delivery.removeProduct("ObjProduct4",1);
 
         assertEquals(500400.0,delivery.getTotalPrice());
     }

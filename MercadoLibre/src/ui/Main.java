@@ -59,15 +59,32 @@ public class Main {
                             "       Select an option \n" +
                             "         [1] search by price\n" +
                             "         [2] search by quantity\n" +
-                            "         [3] search by time bought\n");
+                            "         [3] search by time bought\n"+
+                            "         [4] search by letter range\n"+
+                            "         [5] search by prefix\n");
+
                     optionTemp = sc.nextLine();
                     option = Integer.parseInt(optionTemp);
-                    System.out.println("ingrese el valor minimo y maximo");
-                    String tmin = sc.nextLine();
-                    String tmax = sc.nextLine();
-                    int min = Integer.parseInt(tmin);
-                    int max = Integer.parseInt(tmax);
-                   controller.searchbyrange(min, max, option);
+                    if(option>=1 && option<=3){
+                        System.out.println("ingrese el valor minimo y maximo");
+                        String tmin = sc.nextLine();
+                        String tmax = sc.nextLine();
+                        int min = Integer.parseInt(tmin);
+                        int max = Integer.parseInt(tmax);
+                        controller.searchbyrange(min, max, option);
+                    } else if (option==4 ) {
+                        System.out.println("ingrese la letra inicial y la letra final");
+                        String tmin = sc.nextLine();
+                        String tmax = sc.nextLine();
+                        char min=tmin.charAt(0);
+                        char max=tmax.charAt(0);
+                        controller.searchByRange(min,max);
+                    } else if (option==5) {
+                        System.out.println("ingrese la letra inicial y la letra final");
+                        String tmin = sc.nextLine();
+                        String tmax = sc.nextLine();
+                        controller.searchInRange(tmin,tmax);
+                    }
                     System.out.println("\n" +
                             "                                   \n" +
                             "    ------------------------------------------ \n" +

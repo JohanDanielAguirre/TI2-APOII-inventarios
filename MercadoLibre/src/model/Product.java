@@ -91,8 +91,8 @@ public class Product implements Comparable<Product>{
         return timesBought;
     }
 
-    public void setTimesBought(int timesBought) {
-        this.timesBought = timesBought;
+    public void setTimesBought() {
+        timesBought++;
     }
 
     @Override

@@ -140,7 +140,6 @@ public class Store {
         return wasErased;
 
     }
-// este metodo se eralizo solo para que pase los test debe ser arreglado y modificado
     public Delivery createDelivery(String buyerName, String productName,int requested) throws ObjectNotFoundException, NotEnoughProductsException{
         Product product = new Product(productName,"",0,0,0,0);
         Delivery d= null;
@@ -164,6 +163,7 @@ public class Store {
             int j = searchDeliverySpecific(0,delivery);
             for (int k = 0; k < requested; k++) {
                 deliveries.get(j).addProducts(products.get(i));
+                products.get(i).setTimesBought();
             }
 
             if (products.get(i).getInventory() <= 0){
@@ -243,6 +243,18 @@ public class Store {
         Collections.sort(products);
     }
 
+    public void sortResultsByName(){
+        Collections.sort(aux,comparators[0]);
+    }
+
+    public void sortResultsByPrice(){
+        Collections.sort(aux,Comparator.comparingDouble(Product::getPrice));
+    }
+
+    public void sortResultsByTimesBought(){
+        Collections.sort(aux,Comparator.comparingInt(Product::getTimesBought));
+    }
+
     private void bubbleSortDescendingOrder() {
         for (int i = 0; i < products.size(); i++) {
             for (int j = 1; j < products.size()-i; j++) {
@@ -268,8 +280,6 @@ public class Store {
         fillComparators();
         fillComparators2();
     }
-
-
 
     public void searchbyrange(int min, int max, int option) {
 

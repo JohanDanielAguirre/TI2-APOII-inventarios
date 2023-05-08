@@ -181,7 +181,11 @@ public class Store {
 
     }
 
-    public void removeProductOfDelivery(String name,String buyerName, int request){
+    public ArrayList<Product> getAux() {
+        return aux;
+    }
+
+    public void removeProductOfDelivery(String name, String buyerName, int request){
         Delivery delivery = new Delivery(buyerName,null);
         try {
             int j = searchDeliverySpecific(0,delivery);
@@ -297,31 +301,36 @@ public class Store {
         fillComparators2();
     }
 
-    public void searchbyrange(int min, int max, int option) {
+    public void searchbyrange(int min, int max, int option) throws InvalidDataException {
+        if(min >= 0 && max >= min) {
+            Product productMin;
+            Product productMax;
 
-        Product productMin;
-        Product productMax;
-
-        switch (option) {
-            case 1:
-                Collections.sort(products, Comparator.comparingDouble(Product::getPrice));
-                productMin = new Product("","", min,0,1,0);
-                productMax = new Product("","", max,0,1,0);
-                binarySearchRange(1,productMin,productMax);
-                break;
-            case 2:
-                Collections.sort(products, Comparator.comparingInt(Product::getInventory));
-                productMin = new Product("","", 0,min,1,0);
-                productMax = new Product("","", 0,max,1,0);
-                binarySearchRange(5,productMin,productMax);
-                break;
-            case 3:
-                Collections.sort(products, Comparator.comparingInt(Product::getTimesBought));
-                productMin = new Product("","", 0,0,1,min);
-                productMax = new Product("","", 0,0,1,max);
-                binarySearchRange(3,productMin,productMax);
-                break;
+            switch (option) {
+                case 1:
+                    Collections.sort(products, Comparator.comparingDouble(Product::getPrice));
+                    productMin = new Product("","", min,0,1,0);
+                    productMax = new Product("","", max,0,1,0);
+                    binarySearchRange(1,productMin,productMax);
+                    break;
+                case 2:
+                    Collections.sort(products, Comparator.comparingInt(Product::getInventory));
+                    productMin = new Product("","", 0,min,1,0);
+                    productMax = new Product("","", 0,max,1,0);
+                    binarySearchRange(5,productMin,productMax);
+                    break;
+                case 3:
+                    Collections.sort(products, Comparator.comparingInt(Product::getTimesBought));
+                    productMin = new Product("","", 0,0,1,min);
+                    productMax = new Product("","", 0,0,1,max);
+                    binarySearchRange(3,productMin,productMax);
+                    break;
+            }
+        }else {
+            throw new InvalidDataException("Solo valores por encima de 0");
         }
+
+
 
     }
 
@@ -350,7 +359,7 @@ public class Store {
 
                 Product midP = products.get(mid);
 
-                if (comparators[compare].compare(product,midP) >= 0) {
+                if (comparators[compare].compare(midP,product) >= 0) {
                     result = mid;
                     right = mid - 1;
                 } else {
@@ -369,7 +378,7 @@ public class Store {
                 int mid = left + (right - left) / 2;
 
                 Product midP = products.get(mid);
-                if (comparators[compare].compare(product,midP) <= 0) {
+                if (comparators[compare].compare(midP,product) <= 0) {
                     result = mid;
                     left = mid + 1;
                 } else {

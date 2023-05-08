@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 
 
 public class StoreTest extends TestCase {
@@ -40,7 +41,7 @@ public class StoreTest extends TestCase {
                 30);
         store.addProducts("Vajilla IMUSA Cerámica",
                 "Hermosa vajilla de excelentisima calidad",
-                40000,
+                40001,
                 50000,
                 3,
                 600);
@@ -64,7 +65,7 @@ public class StoreTest extends TestCase {
                 3600);
         store.addProducts("Silla de escritorio ergonomica",
                 "Silla de oficina marca lo mejor para tu espalda que ayudará a tu columna a liberar toda esa presión acumulada por el trabajo",
-                360000,
+                360001,
                 5000,
                 3,
                 350);
@@ -296,6 +297,123 @@ public class StoreTest extends TestCase {
         } catch (ObjectNotFoundException e) {
             assertNotNull(e);
         }
+
+    }
+
+    public void testSearchByRangeNumericError(){
+        setUpStage5();
+
+        int min = -90;
+        int max = 400;
+
+        try {
+            store.searchbyrange(min,max,1);
+            fail();
+        } catch (InvalidDataException e) {
+            assertNotNull(e);
+        }
+
+
+    }
+
+    public void testSearchByRange(){
+        setUpStage5();
+
+        int min = 200;
+        int max = 400000;
+        ArrayList<Product> products = new ArrayList<>();
+        products.add(new Product("Bolso Louis Vuitton",
+                "Bolso de alta gama con cuero suizo",
+                250000,
+                250,
+                3,
+                25));
+        products.add(new Product("Vajilla IMUSA Cerámica",
+                "Hermosa vajilla de excelentisima calidad",
+                40001,
+                50000,
+                3,
+                600));
+        products.add(new Product("Termo de agua 2L",
+                "Termo de agua en diferentes colores y aun excelente precio. Somos una tienda de verificada",
+                40000,
+                10024,
+                3,
+                30));
+        products.add(new Product("Tarjeta de sonido profesional",
+                "Tarjeta de sonido game blaster platinum para escuchar tus  juegos favoritos  a otro nivel",
+                175000,
+                25000,
+                2,
+                3600));
+        products.add(new Product("Silla de escritorio ergonomica",
+                "Silla de oficina marca lo mejor para tu espalda que ayudará a tu columna a liberar toda esa presión acumulada por el trabajo",
+                360001,
+                5000,
+                3,
+                350));
+        products.add(new Product("Anillo de plata tematica juego Zelda",
+                "Anillo de excelente calidad con diferentes logotipos de la temática del videojuego de Zelda",
+                360000,
+                5000,
+                3,
+                350));
+
+        Collections.sort(products, Comparator.comparingDouble(Product::getPrice));
+
+        try {
+            store.searchbyrange(min,max,1);
+            assertEquals(products.toString(),store.getAux().toString());
+        } catch (InvalidDataException e) {
+            fail();
+        }
+
+    }
+
+    public void testSearchByRangeAll(){
+        setUpStage5();
+
+        int min = 0;
+        int max = 99999999;
+
+        try {
+            store.searchbyrange(min,max,1);
+            assertEquals(store.products,store.getAux());
+        } catch (InvalidDataException e) {
+            fail();
+        }
+
+    }
+
+    public void testSearchByRangeNothing(){
+        setUpStage5();
+
+        int min = 0;
+        int max = 10;
+        ArrayList<Product> products = new ArrayList<>();
+        try {
+            store.searchbyrange(min,max,1);
+            assertEquals(products,store.getAux());
+        } catch (InvalidDataException e) {
+            fail();
+        }
+
+    }
+
+    public void testSearchDeliveryExistn_t(){
+        setUpStage5();
+        setUpStage4();
+
+        Delivery delivery = new Delivery("juanito alcachofa",null);
+
+        try {
+            int i = store.searchDeliverySpecific(0,delivery);
+
+            fail();
+        } catch (ObjectNotFoundException e) {
+            assertNotNull(e);
+        }
+
 
     }
 

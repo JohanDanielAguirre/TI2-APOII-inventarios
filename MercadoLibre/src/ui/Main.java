@@ -3,6 +3,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import com.google.gson.Gson;
+import exceptions.InvalidDataException;
 import exceptions.NotEnoughProductsException;
 import exceptions.ObjectNotFoundException;
 import model.Product;
@@ -194,7 +195,7 @@ public class Main {
                         exit = true;
                 }
 
-            } catch (NumberFormatException | ObjectNotFoundException | NotEnoughProductsException e) {
+            } catch (InvalidDataException|NumberFormatException | ObjectNotFoundException | NotEnoughProductsException e) {
                 System.out.println("algo incorrecto se ingreso por favor vuelva a intentarlo");
             }
         }while (!exit);

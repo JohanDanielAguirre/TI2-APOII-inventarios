@@ -514,9 +514,46 @@ public class StoreTest extends TestCase {
 
     public void testsearchletter(){
         setUpStage5();
-        store.searchByRange('A','z');
+        try {
+            store.searchByRange('A','z');
+        }catch (Exception e){
+            fail();
+        }
         ArrayList<Product> a=new ArrayList<>(store.getAux());
         assertEquals(8,a.size());
+    }
+    public void testsearchletterandnumber(){
+        setUpStage5();
+        try{
+            store.searchByRange('1','a');
+            ArrayList<Product> a=new ArrayList<>(store.getAux());
+            fail();
+        }catch (InvalidDataException e){
+            assertNotNull(e);
+        }
+
+    }
+    public void testsearchtwonumbers(){
+        setUpStage5();
+        try{
+            store.searchByRange('9','8');
+            ArrayList<Product> a=new ArrayList<>(store.getAux());
+            fail();
+        }catch (InvalidDataException e){
+            assertNotNull(e);
+        }
+
+    }
+    public void testsearchsymbols(){
+        setUpStage5();
+        try{
+            store.searchByRange('*','+');
+            ArrayList<Product> a=new ArrayList<>(store.getAux());
+            fail();
+        }catch (InvalidDataException e){
+            assertNotNull(e);
+        }
+
     }
 
 }

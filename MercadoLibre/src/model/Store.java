@@ -409,7 +409,18 @@ public class Store {
         return n;
     }
 
-    public  ArrayList<Product> searchByRange(char start, char end) {
+    public  ArrayList<Product> searchByRange(char start, char end) throws InvalidDataException{
+        try{
+            Integer.parseInt(String.valueOf(start));
+            new InvalidDataException("fail");
+        }catch (Exception ignored){}
+        try{
+            Integer.parseInt(String.valueOf(end));
+            new InvalidDataException("fail");
+        }catch (Exception ignored){}
+        if(String.valueOf(start).matches("[/*-+-!#$%&#$%&!()=´^}{]")){
+            throw new InvalidDataException("fail");
+        }
         // Ordena los productos en base a sus nombres
         products.sort(Comparator.comparing(Product::getName));
 

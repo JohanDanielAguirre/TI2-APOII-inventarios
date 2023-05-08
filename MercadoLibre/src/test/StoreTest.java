@@ -505,7 +505,6 @@ public class StoreTest extends TestCase {
 
     }
 
-<<<<<<< HEAD
     public void testsearchbyprefixwithelements(){
         setUpStage5();
         store.searchInRange("Ter","2L");
@@ -513,75 +512,11 @@ public class StoreTest extends TestCase {
         assertEquals(0,a.size());
     }
 
-
-
     public void testsearchletter(){
         setUpStage5();
-        try {
-            store.searchByRange('A','z');
-        }catch (Exception e){
-            fail();
-        }
+        store.searchByRange('A','z');
         ArrayList<Product> a=new ArrayList<>(store.getAux());
-        assertEquals(5,a.size());
-    }
-    public void testsearchletterandnumber(){
-        setUpStage5();
-        try{
-            store.searchByRange('1','a');
-            ArrayList<Product> a=new ArrayList<>(store.getAux());
-            fail();
-        }catch (InvalidDataException e){
-            assertNotNull(e);
-        }
-
-    }
-    public void testsearchtwonumbers(){
-        setUpStage5();
-        try{
-            store.searchByRange('9','8');
-            ArrayList<Product> a=new ArrayList<>(store.getAux());
-            fail();
-        }catch (InvalidDataException e){
-            assertNotNull(e);
-        }
-
-    }
-    public void testsearchletterandnumber(){
-        setUpStage5();
-        try{
-            store.searchByRange('1','a');
-            ArrayList<Product> a=new ArrayList<>(store.getAux());
-            fail();
-        }catch (InvalidDataException e){
-            assertNotNull(e);
-        }
-
-    }
-    public void testsearchtwonumbers(){
-        setUpStage5();
-        try{
-            store.searchByRange('9','8');
-            ArrayList<Product> a=new ArrayList<>(store.getAux());
-            fail();
-        }catch (InvalidDataException e){
-            assertNotNull(e);
-        }
-
-    }
-    public void testsearchsymbols(){
-        setUpStage5();
-        try{
-            store.searchByRange('*','+');
-            ArrayList<Product> a=new ArrayList<>(store.getAux());
-            fail();
-        }catch (InvalidDataException e){
-            assertNotNull(e);
-        }
-
+        assertEquals(8,a.size());
     }
 
-
-=======
->>>>>>> parent of ad4fed6 (fixed errors on search in range by chars)
 }

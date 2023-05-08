@@ -327,6 +327,10 @@ public class Store {
                     productMax = new Product("","", 0,0,1,max);
                     binarySearchRange(3,productMin,productMax);
                     break;
+                case 4:
+                        Collections.sort(products,Comparator.comparing(Product::getCategory));
+                        binarySearchcategory();
+                    break;
             }
         }else {
             throw new InvalidDataException("Solo valores por encima de 0");
@@ -530,5 +534,9 @@ public class Store {
         }
 
         return right; // Devolver el índice encontrado
+    }
+
+    public ArrayList<Product> searchProductCategory(int cat) {
+
     }
 }

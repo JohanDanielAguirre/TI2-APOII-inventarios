@@ -267,12 +267,12 @@ public class StoreTest extends TestCase {
 
     }
 
-   /* public void testsearchbyCategory(){
+    public void testsearchbyCategory(){
         setUpStage5();
         ArrayList<Product> a= new ArrayList();
-        a=store.searchProducts();
+        a=store.searchProductCategory(2);
 
-    }*/
+    }
 
     public void testsearchbyPrice(){
         setUpStage5();
@@ -465,6 +465,4 @@ public class StoreTest extends TestCase {
 
 
     }
-
-
 }

@@ -410,146 +410,166 @@ public class Store {
         return n;
     }
 
+
+
     public ArrayList<Product> searchByRange(char start, char end) throws InvalidDataException {
 
-
-        try {
-
-            Integer.parseInt(start + "");
-            throw new InvalidDataException("Solo letras");
-        } catch (NumberFormatException e) {
+        public ArrayList<Product> searchByRange ( char start, char end) throws InvalidDataException {
+            try {
+                Integer.parseInt(String.valueOf(start));
+                new InvalidDataException("fail");
+            } catch (Exception ignored) {
+            }
+            try {
+                Integer.parseInt(String.valueOf(end));
+                new InvalidDataException("fail");
+            } catch (Exception ignored) {
+            }
+            if (String.valueOf(start).matches("[/*-+-!#$%&#$%&!()=´^}{]")) {
+                throw new InvalidDataException("fail");
+            }
+            // Ordena los productos en base a sus nombres
             products.sort(Comparator.comparing(Product::getName));
 
-            // Encuentra el índice del primer producto que empieza por la letra inicial dada
-            int startIndex = binarySearchStart(products, start);
 
-            // Si no se encuentra ningún producto, no hay nada que hacer
-            if (startIndex == -1) {
+            try {
+
+                Integer.parseInt(start + "");
+                throw new InvalidDataException("Solo letras");
+            } catch (NumberFormatException e) {
+                products.sort(Comparator.comparing(Product::getName));
+
+                // Encuentra el índice del primer producto que empieza por la letra inicial dada
+                int startIndex = binarySearchStart(products, start);
+
+                // Si no se encuentra ningún producto, no hay nada que hacer
+                if (startIndex == -1) {
+                    return aux;
+                }
+
+                // Encuentra el índice del último producto que termina por la letra final dada
+                int endIndex = binarySearchEnd(products, end);
+
+                // Si no se encuentra ningún producto, no hay nada que hacer
+                if (endIndex == -1) {
+                    return aux;
+                }
+
+                // Recorre los productos entre los índices encontrados y añádelos a los resultados
+                for (int i = startIndex; i <= endIndex; i++) {
+                    aux.add(products.get(i));
+                } 
+
                 return aux;
             }
 
-            // Encuentra el índice del último producto que termina por la letra final dada
-            int endIndex = binarySearchEnd(products, end);
 
-            // Si no se encuentra ningún producto, no hay nada que hacer
-            if (endIndex == -1) {
-                return aux;
+        }
+
+        private int binarySearchStart (ArrayList < Product > products,char start){
+            int low = 0;
+            int high = products.size() - 1;
+            int result = -1;
+
+            while (low <= high) {
+                int mid = (low + high) / 2;
+                char firstChar = products.get(mid).getName().charAt(0);
+
+                if (firstChar >= start) {
+                    // El primer producto que empieza por la letra inicial dada
+                    result = mid;
+                    high = mid - 1;
+                } else {
+                    // La letra inicial dada está más adelante en el alfabeto, busca en la mitad derecha
+                    low = mid + 1;
+                }
             }
 
-            // Recorre los productos entre los índices encontrados y añádelos a los resultados
+            // No se ha encontrado ningún producto que empiece por la letra inicial dada
+            return result;
+        }
+
+        private int binarySearchEnd (ArrayList < Product > products,char end){
+            int low = 0;
+            int high = products.size() - 1;
+            int result = -1;
+
+            while (low <= high) {
+                int mid = (low + high) / 2;
+                char lastChar = products.get(mid).getName().charAt(products.get(mid).getName().length() - 1);
+
+                if (lastChar <= end) {
+                    // El último producto que termina por la letra final dada
+                    result = mid;
+                    low = mid + 1;
+                } else {
+                    // La letra final dada está más atrás en el alfabeto, busca en la mitad izquierda
+                    high = mid - 1;
+                }
+            }
+
+            // No se ha encontrado ningún producto que termine por la letra final dada
+            return result;
+        }
+
+        public ArrayList<Product> searchInRange (String prefixStart, String prefixEnd){
+            // Encontrar el índice del primer y último elemento en el rango de búsqueda
+            int startIndex = binarySearchStart(prefixStart);
+            int endIndex = binarySearchEnd(prefixEnd);
+
+            // Recorrer los elementos entre los índices de inicio y fin
             for (int i = startIndex; i <= endIndex; i++) {
-                aux.add(products.get(i));
+                Product currentProduct = products.get(i);
+                // Agregar los elementos cuyo nombre comienza con el prefijo inicial
+                if (currentProduct.getName().startsWith(prefixStart)) {
+                    aux.add(currentProduct);
+                }
             }
 
+            // Devolver los resultados encontrados
             return aux;
         }
 
+        // Encontrar el índice del primer elemento en el rango de búsqueda
+        private int binarySearchStart (String prefixStart){
+            int left = 0;
+            int right = products.size() - 1;
+            int result = -1;
 
-    }
+            while (left <= right) {
+                int mid = left + (right - left) / 2;
+                String midName = products.get(mid).getName();
 
-    private int binarySearchStart(ArrayList<Product> products, char start) {
-        int low = 0;
-        int high = products.size() - 1;
-        int result = -1;
-
-        while (low <= high) {
-            int mid = (low + high) / 2;
-            char firstChar = products.get(mid).getName().charAt(0);
-
-            if (firstChar >= start) {
-                // El primer producto que empieza por la letra inicial dada
-                result = mid;
-                high = mid - 1;
-            } else {
-                // La letra inicial dada está más adelante en el alfabeto, busca en la mitad derecha
-                low = mid + 1;
+                if (midName.compareTo(prefixStart) >= 0) {
+                    result = mid;
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
             }
+
+            return result; // Devolver el índice encontrado
         }
 
-        // No se ha encontrado ningún producto que empiece por la letra inicial dada
-        return result;
-    }
+        // Encontrar el índice del último elemento en el rango de búsqueda
+        private int binarySearchEnd (String prefixEnd){
+            int left = 0;
+            int right = products.size() - 1;
+            int result = -1;
 
-    private int binarySearchEnd(ArrayList<Product> products, char end) {
-        int low = 0;
-        int high = products.size() - 1;
-        int result = -1;
+            while (left <= right) {
+                int mid = left + (right - left + 1) / 2;
+                String midName = products.get(mid).getName();
 
-        while (low <= high) {
-            int mid = (low + high) / 2;
-            char lastChar = products.get(mid).getName().charAt(products.get(mid).getName().length() - 1);
+                if (midName.compareTo(prefixEnd) <= 0) {
+                    result = mid;
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
 
-            if (lastChar <= end) {
-                // El último producto que termina por la letra final dada
-                result = mid;
-                low = mid + 1;
-            } else {
-                // La letra final dada está más atrás en el alfabeto, busca en la mitad izquierda
-                high = mid - 1;
             }
+            return result;
         }
-
-        // No se ha encontrado ningún producto que termine por la letra final dada
-        return result;
-    }
-
-    public ArrayList<Product> searchInRange(String prefixStart, String prefixEnd) {
-        // Encontrar el índice del primer y último elemento en el rango de búsqueda
-        int startIndex = binarySearchStart(prefixStart);
-        int endIndex = binarySearchEnd(prefixEnd);
-
-        // Recorrer los elementos entre los índices de inicio y fin
-        for (int i = startIndex; i <= endIndex; i++) {
-            Product currentProduct = products.get(i);
-            // Agregar los elementos cuyo nombre comienza con el prefijo inicial
-            if (currentProduct.getName().startsWith(prefixStart)) {
-                aux.add(currentProduct);
-            }
-        }
-
-        // Devolver los resultados encontrados
-        return aux;
-    }
-
-    // Encontrar el índice del primer elemento en el rango de búsqueda
-    private int binarySearchStart(String prefixStart) {
-        int left = 0;
-        int right = products.size() - 1;
-        int result = -1;
-
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            String midName = products.get(mid).getName();
-
-            if (midName.compareTo(prefixStart) >= 0) {
-                result = mid;
-                right = mid - 1;
-            } else {
-                left = mid + 1;
-            }
-        }
-
-        return result; // Devolver el índice encontrado
-    }
-
-    // Encontrar el índice del último elemento en el rango de búsqueda
-    private int binarySearchEnd(String prefixEnd) {
-        int left = 0;
-        int right = products.size() - 1;
-        int result = -1;
-
-        while (left <= right) {
-            int mid = left + (right - left + 1) / 2;
-            String midName = products.get(mid).getName();
-
-            if (midName.compareTo(prefixEnd) <= 0) {
-                result = mid;
-                left = mid + 1;
-            } else {
-                right = mid - 1;
-            }
-            
-        }
-        return result;
     }
 }

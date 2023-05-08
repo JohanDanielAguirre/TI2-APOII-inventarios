@@ -267,6 +267,55 @@ public class StoreTest extends TestCase {
 
     }
 
+    public void testsearchbyCategory(){
+        setUpStage5();
+        ArrayList<Product> a= new ArrayList();
+        a=store.searchProductCategory(2);
+
+    }
+
+    public void testsearchbyPrice(){
+        setUpStage5();
+        ArrayList<Product> a=new ArrayList<>();
+        try{
+            store.searchbyrange(40000,40000,1);
+            a=store.getAux();
+            assertEquals(1,a.size());
+        }catch (Exception e){
+            fail();
+        }
+    }
+
+    public void testSearchByNameProductfail(){
+        setUpStage5();
+        Product product = new Product("Disco de pavlov",
+                "hermoso disco del videojuego pavlov compatible con todas las vr del mercado",
+                250000,
+                9999,
+                2,
+                0);
+
+        try {
+            int i = store.searchProductSpecific(0,product);
+            fail();
+        } catch (ObjectNotFoundException e) {
+            assertNotNull(e);
+        }
+
+    }
+
+    public void testsearchbyBoughttime(){
+        setUpStage5();
+        ArrayList<Product> a=new ArrayList<>();
+        try{
+            store.searchbyrange(30,30,3);
+            a=store.getAux();
+            assertEquals(2,a.size());
+        }catch (Exception e){
+            fail();
+        }
+    }
+
     public void testSearchByNameDelivery(){
         setUpStage5();
         setUpStage4();
@@ -416,6 +465,7 @@ public class StoreTest extends TestCase {
 
 
     }
+
 
     public void testSearchDeliveryName(){
         setUpStage5();

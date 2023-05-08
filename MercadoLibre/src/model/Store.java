@@ -409,32 +409,45 @@ public class Store {
         return n;
     }
 
-    public  ArrayList<Product> searchByRange(char start, char end) {
-        // Ordena los productos en base a sus nombres
-        products.sort(Comparator.comparing(Product::getName));
+    public  ArrayList<Product> searchByRange(char start, char end) throws InvalidDataException {
 
-        // Encuentra el índice del primer producto que empieza por la letra inicial dada
-        int startIndex = binarySearchStart(products, start);
+            try{
+                Integer.parseInt(String.valueOf(start));
+                new InvalidDataException("fail");
+            }catch (Exception ignored){}
+            try{
+                Integer.parseInt(String.valueOf(end));
+                new InvalidDataException("fail");
+            }catch (Exception ignored){}
+            if(String.valueOf(start).matches("[/*-+-!#$%&#$%&!()=´^}{]")){
+                throw new InvalidDataException("fail");
+            }
+            // Ordena los productos en base a sus nombres
+            products.sort(Comparator.comparing(Product::getName));
 
-        // Si no se encuentra ningún producto, no hay nada que hacer
-        if (startIndex == -1) {
+            // Encuentra el índice del primer producto que empieza por la letra inicial dada
+            int startIndex = binarySearchStart(products, start);
+
+            // Si no se encuentra ningún producto, no hay nada que hacer
+            if (startIndex == -1) {
+                return aux;
+            }
+
+            // Encuentra el índice del último producto que termina por la letra final dada
+            int endIndex = binarySearchEnd(products, end);
+
+            // Si no se encuentra ningún producto, no hay nada que hacer
+            if (endIndex == -1) {
+                return aux;
+            }
+
+            // Recorre los productos entre los índices encontrados y añádelos a los resultados
+            for (int i = startIndex; i <= endIndex; i++) {
+                aux.add(products.get(i));
+            }
+
             return aux;
-        }
 
-        // Encuentra el índice del último producto que termina por la letra final dada
-        int endIndex = binarySearchEnd(products, end);
-
-        // Si no se encuentra ningún producto, no hay nada que hacer
-        if (endIndex == -1) {
-            return aux;
-        }
-
-        // Recorre los productos entre los índices encontrados y añádelos a los resultados
-        for (int i = startIndex; i <= endIndex; i++) {
-            aux.add(products.get(i));
-        }
-
-        return aux;
     }
 
     private int binarySearchStart(ArrayList<Product> products, char start) {
@@ -535,6 +548,18 @@ public class Store {
         }
 
         return right; // Devolver el índice encontrado
+    }
+
+    public void orderdelivery(int or){
+        switch (or){
+            case 1:
+                Collections.sort(deliveries,comparators2[0]);
+                break;
+            case 2:
+                Collections.sort(deliveries,comparators2[0]);
+                Collections.reverse(deliveries);
+                break;
+        }
     }
 
 }

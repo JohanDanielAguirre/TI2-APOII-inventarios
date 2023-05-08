@@ -78,7 +78,6 @@ public class StoreTest extends TestCase {
     }
 
     private void setUpStage4(){
-        setUpStage6();
         setUpStage5();
 
         try {
@@ -96,7 +95,6 @@ public class StoreTest extends TestCase {
     }
 
     public void testAddProductNew(){
-        setUpStage6();
         setUpStage5();
 
 
@@ -116,7 +114,6 @@ public class StoreTest extends TestCase {
     }
 
     public void testAddProductExist(){
-        setUpStage6();
         setUpStage5();
         Product product = new Product("Bolso Louis Vuitton",
                 "Bolso de alta gama con cuero suizo",
@@ -141,7 +138,6 @@ public class StoreTest extends TestCase {
     }
 
     public void testRemoveProductExists(){
-        setUpStage6();
         setUpStage5();
         String name = "Bolso Louis Vuitton";
 
@@ -149,7 +145,6 @@ public class StoreTest extends TestCase {
     }
 
     public void testRemoveProductNotExists(){
-        setUpStage6();
         setUpStage5();
         String name = "Juguete de max steel";
 
@@ -157,7 +152,6 @@ public class StoreTest extends TestCase {
     }
 
     public void testcreatedelivery(){
-        setUpStage6();
         setUpStage5();
         setUpStage4();
 
@@ -173,7 +167,7 @@ public class StoreTest extends TestCase {
 
 
     public void testcreatedeliveryfail(){
-        setUpStage6();
+        setUpStage5();
         setUpStage4();
         try {
             Delivery d=store.createDelivery("Pedro el tonto","yo mismo",999);
@@ -185,7 +179,6 @@ public class StoreTest extends TestCase {
 
 
     public void testmodifycorrectlyAdd(){
-        setUpStage6();
         setUpStage5();
         setUpStage4();
 
@@ -201,7 +194,6 @@ public class StoreTest extends TestCase {
     }
 
     public void testmodifycorrectlyRemove(){
-        setUpStage6();
         setUpStage5();
         setUpStage4();
 
@@ -218,7 +210,6 @@ public class StoreTest extends TestCase {
     }
 
     public void testModifyAddFail(){
-        setUpStage6();
         setUpStage5();
         setUpStage4();
 
@@ -234,7 +225,6 @@ public class StoreTest extends TestCase {
     }
 
     public void testOrganizeListAscending(){
-        setUpStage6();
         setUpStage5();
         ArrayList<Product> products = store.products;
         Collections.sort(products);
@@ -246,7 +236,6 @@ public class StoreTest extends TestCase {
     }
 
     public void testOrganizeProductsListDescending(){
-        setUpStage6();
         setUpStage5();
 
         ArrayList<Product> products = store.products;
@@ -259,21 +248,56 @@ public class StoreTest extends TestCase {
 
     }
 
-    public void testOrganizeDeliveriesListDescending(){
-
-        setUpStage6();
+    public void testSearchByNameProduct(){
         setUpStage5();
-        setUpStage4();
+       Product product = new Product("Termo de agua 2L",
+                "Termo de agua en diferentes colores y aun excelente precio. Somos una tienda de verificada",
+                40000.0,
+                10024,
+                3,
+                30);
 
-        ArrayList<Delivery> deliveries = store.deliveries;
-
-
+        try {
+            int i = store.searchProductSpecific(0,product);
+            assertEquals(product.getDescription(),store.products.get(i).getDescription());
+        } catch (ObjectNotFoundException e) {
+            fail();
+        }
 
     }
 
+    public void testSearchByNameDelivery(){
+        setUpStage5();
+        setUpStage4();
 
+        Delivery delivery = new Delivery("Juan Sebastián L",null);
 
+        try {
+            int i = store.searchDeliverySpecific(0,delivery);
+            assertEquals(delivery.getBuyerName(),store.deliveries.get(i).getBuyerName());
+        } catch (ObjectNotFoundException e) {
+            fail();
+        }
 
+    }
+
+    public void testSearchByNameNotFound(){
+        setUpStage5();
+        Product product = new Product("Disco Pavlo",
+                "",
+                0,
+                0,
+                0,
+                0);
+
+        try {
+            int i = store.searchProductSpecific(0,product);
+            fail();
+        } catch (ObjectNotFoundException e) {
+            assertNotNull(e);
+        }
+
+    }
 
 
 }

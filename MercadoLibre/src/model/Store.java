@@ -59,7 +59,7 @@ public class Store {
         comparators[2] = new Comparator<Product>() {
             @Override
             public int compare(Product o1, Product o2) {
-                return o1.getCategory().compareTo(o2.getCategory());
+                return o1.getCategory()-o2.getCategory();
             }
         };
 
@@ -326,6 +326,13 @@ public class Store {
                     productMin = new Product("","", 0,0,1,min);
                     productMax = new Product("","", 0,0,1,max);
                     binarySearchRange(3,productMin,productMax);
+                    break;
+
+                case 4:
+                    Collections.sort(products, comparators[2]);
+                    productMin = new Product("","", 0,0,min,0);
+                    productMax = new Product("","", 0,0,min,0);
+                    binarySearchRange(2,productMin,productMax);
                     break;
             }
         }else {

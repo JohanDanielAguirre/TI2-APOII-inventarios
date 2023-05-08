@@ -269,8 +269,17 @@ public class StoreTest extends TestCase {
 
     public void testsearchbyCategory(){
         setUpStage5();
-        ArrayList<Product> a= new ArrayList();
-        a=store.searchProductCategory(2);
+
+        ArrayList<Product> a=new ArrayList<>();
+        try{
+            store.searchbyrange(3,3,4);
+            a=store.getAux();
+            assertEquals(5,a.size());
+        }catch (Exception e){
+            fail();
+        }
+
+
 
     }
 

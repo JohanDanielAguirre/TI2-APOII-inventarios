@@ -79,8 +79,8 @@ public class Product implements Comparable<Product>{
         this.price = price;
     }
 
-    public Category getCategory() {
-        return category;
+    public int getCategory() {
+        return category.getNum();
     }
 
     public void setCategory(Category category) {

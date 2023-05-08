@@ -437,7 +437,7 @@ public class Store {
         return aux;
     }
 
-    private static int binarySearchStart(ArrayList<Product> products, char start) {
+    private int binarySearchStart(ArrayList<Product> products, char start) {
         int low = 0;
         int high = products.size() - 1;
 
@@ -460,7 +460,7 @@ public class Store {
         // No se ha encontrado ningún producto que empiece por la letra inicial dada
         return -1;
     }
-    private static int binarySearchEnd(ArrayList<Product> products, char end) {
+    private int binarySearchEnd(ArrayList<Product> products, char end) {
         int low = 0;
         int high = products.size() - 1;
 

@@ -3,6 +3,8 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import com.google.gson.Gson;
+import exceptions.NotEnoughProductsException;
+import exceptions.ObjectNotFoundException;
 import model.Product;
 import model.Store;
 import model.Delivery;
@@ -100,13 +102,25 @@ public class Main {
                             "                                         \n" +
                             "       Select an option \n" +
                             "         [1] create delivery\n" +
-                            "         [2] delete delivery\n" );
+                            "         [2] delete product from delivery\n" );
                     optionTemp = sc.nextLine();
                     option = Integer.parseInt(optionTemp);
                     if(option==1){
-
+                        System.out.println("please put the name of the product");
+                        String np=sc.nextLine();
+                        System.out.println("please put the name of the buyer");
+                        String nb=sc.nextLine();
+                        System.out.println("put the cuantity of the product inside the delivery");
+                        int c=sc.nextInt();
+                        controller.createDelivery(nb,np,c);
                     } else if (option==2) {
-
+                        System.out.println("please put the name of the product");
+                        String np=sc.nextLine();
+                        System.out.println("please put the name of the buyer");
+                        String nb=sc.nextLine();
+                        System.out.println("put the cuantity of be removed or 0 if you want eliminate the product totally");
+                        int c=sc.nextInt();
+                        controller.removeProductOfDelivery(np,nb,c);
                     }
 
                     break;
@@ -162,7 +176,7 @@ public class Main {
                     break;
             }
 
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException | ObjectNotFoundException | NotEnoughProductsException e) {
             System.out.println("algo incorrecto se ingreso por favor vuelva a intentarlo");
         }
     }

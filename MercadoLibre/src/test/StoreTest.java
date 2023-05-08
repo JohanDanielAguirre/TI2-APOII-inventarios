@@ -505,6 +505,7 @@ public class StoreTest extends TestCase {
 
     }
 
+<<<<<<< HEAD
     public void testsearchbyprefixwithelements(){
         setUpStage5();
         store.searchInRange("Ter","2L");
@@ -581,4 +582,6 @@ public class StoreTest extends TestCase {
     }
 
 
+=======
+>>>>>>> parent of ad4fed6 (fixed errors on search in range by chars)
 }

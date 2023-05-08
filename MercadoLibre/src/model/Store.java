@@ -540,22 +540,59 @@ public class Store {
                 int mid = left + (right - left) / 2;
                 String midName = products.get(mid).getName();
 
+<<<<<<< HEAD
                 if (midName.compareTo(prefixStart) >= 0) {
                     result = mid;
                     right = mid - 1;
                 } else {
                     left = mid + 1;
                 }
+=======
+        // Recorre los productos entre los índices encontrados y añádelos a los resultados
+        for (int i = startIndex; i <= endIndex; i++) {
+            aux.add(products.get(i));
+        }
+
+        return aux;
+    }
+
+    private int binarySearchStart(ArrayList<Product> products, char start) {
+        int low = 0;
+        int high = products.size() - 1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            char firstChar = products.get(mid).getName().charAt(0);
+
+            if (firstChar == start) {
+                // El primer producto que empieza por la letra inicial dada
+                return mid;
+            } else if (firstChar < start) {
+                // La letra inicial dada está más adelante en el alfabeto, busca en la mitad derecha
+                low = mid + 1;
+            } else {
+                // La letra inicial dada está más atrás en el alfabeto, busca en la mitad izquierda
+                high = mid - 1;
+>>>>>>> parent of ad4fed6 (fixed errors on search in range by chars)
             }
 
             return result; // Devolver el índice encontrado
         }
 
+<<<<<<< HEAD
         // Encontrar el índice del último elemento en el rango de búsqueda
         private int binarySearchEnd (String prefixEnd){
             int left = 0;
             int right = products.size() - 1;
             int result = -1;
+=======
+        // No se ha encontrado ningún producto que empiece por la letra inicial dada
+        return -1;
+    }
+    private int binarySearchEnd(ArrayList<Product> products, char end) {
+        int low = 0;
+        int high = products.size() - 1;
+>>>>>>> parent of ad4fed6 (fixed errors on search in range by chars)
 
             while (left <= right) {
                 int mid = left + (right - left + 1) / 2;
@@ -568,8 +605,26 @@ public class Store {
                     right = mid - 1;
                 }
 
+<<<<<<< HEAD
+=======
+            if (lastChar == end) {
+                // El último producto que termina por la letra final dada
+                return mid;
+            } else if (lastChar < end) {
+                // La letra final dada está más adelante en el alfabeto, busca en la mitad derecha
+                low = mid + 1;
+            } else {
+                // La letra final dada está más atrás en el alfabeto, busca en la mitad izquierda
+                high = mid - 1;
+>>>>>>> parent of ad4fed6 (fixed errors on search in range by chars)
             }
             return result;
         }
+<<<<<<< HEAD
+=======
+
+        // No se ha encontrado ningún producto que termine por la letra final dada
+        return -1;
+>>>>>>> parent of ad4fed6 (fixed errors on search in range by chars)
     }
 }

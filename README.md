@@ -7,7 +7,7 @@ https://docs.google.com/document/d/1pJD026DSvLJ9pmCHH4i_RNPmqhX569LI/edit
 
 # Indicadores de calidad
 
-* Densidad de errores-fallos =  $\frac{10}{44} = 0,2272$  
-* Confiabilidad = $1 - \frac{10}{44} = 0,07727$
+* Densidad de errores-fallos =  $\frac{12}{44} = 0,2727$  
+* Confiabilidad = $1 - \frac{12}{44} = 0,07272$
 * Completitud = $\frac{44}{8} = 5,5 $
 

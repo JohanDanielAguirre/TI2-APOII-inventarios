@@ -440,39 +440,37 @@ public class Store {
     private int binarySearchStart(ArrayList<Product> products, char start) {
         int low = 0;
         int high = products.size() - 1;
+        int result = -1;
 
         while (low <= high) {
             int mid = (low + high) / 2;
             char firstChar = products.get(mid).getName().charAt(0);
 
-            if (firstChar == start) {
+            if (firstChar >= start) {
                 // El primer producto que empieza por la letra inicial dada
-                return mid;
-            } else if (firstChar < start) {
+                result = mid;
+                high = mid - 1;
+            } else {
                 // La letra inicial dada está más adelante en el alfabeto, busca en la mitad derecha
                 low = mid + 1;
-            } else {
-                // La letra inicial dada está más atrás en el alfabeto, busca en la mitad izquierda
-                high = mid - 1;
             }
         }
 
         // No se ha encontrado ningún producto que empiece por la letra inicial dada
-        return -1;
+        return result;
     }
     private int binarySearchEnd(ArrayList<Product> products, char end) {
         int low = 0;
         int high = products.size() - 1;
+        int result = -1;
 
         while (low <= high) {
             int mid = (low + high) / 2;
             char lastChar = products.get(mid).getName().charAt(products.get(mid).getName().length() - 1);
 
-            if (lastChar == end) {
+            if (lastChar <= end) {
                 // El último producto que termina por la letra final dada
-                return mid;
-            } else if (lastChar < end) {
-                // La letra final dada está más adelante en el alfabeto, busca en la mitad derecha
+                result = mid;
                 low = mid + 1;
             } else {
                 // La letra final dada está más atrás en el alfabeto, busca en la mitad izquierda
@@ -481,7 +479,7 @@ public class Store {
         }
 
         // No se ha encontrado ningún producto que termine por la letra final dada
-        return -1;
+        return result;
     }
     public ArrayList<Product> searchInRange(String prefixStart, String prefixEnd) {
         // Encontrar el índice del primer y último elemento en el rango de búsqueda

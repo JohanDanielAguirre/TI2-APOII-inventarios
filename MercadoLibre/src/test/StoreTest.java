@@ -505,4 +505,18 @@ public class StoreTest extends TestCase {
 
     }
 
+    public void testsearchbyprefixwithelements(){
+        setUpStage5();
+        store.searchInRange("Ter","2L");
+        ArrayList<Product> a=new ArrayList<>(store.getAux());
+        assertEquals(0,a.size());
+    }
+
+    public void testsearchletter(){
+        setUpStage5();
+        store.searchByRange('A','z');
+        ArrayList<Product> a=new ArrayList<>(store.getAux());
+        assertEquals(8,a.size());
+    }
+
 }

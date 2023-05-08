@@ -16,6 +16,10 @@ public class Store {
     private final Comparator<Delivery>[] comparators2;
     private ArrayList<Product> aux;
 
+    public void refreshaux(){
+        aux.clear();
+    }
+
     public void addProducts(String nombre, String descripcion, double precio, int cantidadDisponible, int categorias,int timesBought){
 
         Product product = new Product(nombre,descripcion,precio,cantidadDisponible,categorias,timesBought);

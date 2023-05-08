@@ -46,8 +46,69 @@ public class Main {
             int option = Integer.parseInt(optionTemp);
             switch (option) {
                 case 1:
+                    System.out.println("\n" +
+                            "                                   \n" +
+                            "    --------------------------------------- \n" +
+                            "    WELCOME TO MERCADO LIBRE PRODUCTS MODULE \n" +
+                            "    --------------------------------------- \n" +
+                            "                                         \n" +
+                            "       Select an option \n" +
+                            "         [1] create product\n" +
+                            "         [2] delete product\n" );
+                    optionTemp = sc.nextLine();
+                    option = Integer.parseInt(optionTemp);
+                    if(option==1){
+                        System.out.println("please enter the name");
+                        String n=sc.nextLine();
+                        System.out.println("please enter the description");
+                        String d=sc.nextLine();
+                        System.out.println("please enter the price");
+                        double p=sc.nextDouble();
+                        System.out.println("please put the cuantity");
+                        int c=sc.nextInt();
+                        System.out.println("\n" +
+                                "                                   \n" +
+                                "    -------------------------- \n" +
+                                "    PLEASE SELECT THE CATEGORY \n" +
+                                "    -------------------------- \n" +
+                                "                                         \n" +
+                                "       Select an option \n" +
+                                "         [1] BOOKS\n" +
+                                "         [2] ELECTRONIC\n"+
+                                "         [3] CLOTHES AND ACCESORIES\n"+
+                                "         [4] FOOD AND DRINKS\n"+
+                                "         [5] STATIONERY\n"+
+                                "         [6] SPORTS\n"+
+                                "         [7] PERSONAL CARE AND BEAUTY\n"+
+                                "         [8] GAMES AND TOYS\n");
+                        int cat=sc.nextInt();
+                        System.out.println("please put the times the product has brought ");
+                        int b=sc.nextInt();
+                        controller.addProducts(n,d,p,c,cat,b);
+                    } else if (option==2) {
+                        System.out.println("please enter the name of the product will be eliminated");
+                        String delete= sc.nextLine();
+                        controller.deleteProduct(delete);
+                    }
                     break;
                 case 2:
+                    System.out.println("\n" +
+                            "                                   \n" +
+                            "    ----------------------------------------- \n" +
+                            "    WELCOME TO MERCADO LIBRE DELIVERYS MODULE \n" +
+                            "    ----------------------------------------- \n" +
+                            "                                         \n" +
+                            "       Select an option \n" +
+                            "         [1] create delivery\n" +
+                            "         [2] delete delivery\n" );
+                    optionTemp = sc.nextLine();
+                    option = Integer.parseInt(optionTemp);
+                    if(option==1){
+
+                    } else if (option==2) {
+
+                    }
+
                     break;
                 case 3:
                     System.out.println("\n" +
@@ -62,7 +123,7 @@ public class Main {
                             "         [3] search by time bought\n"+
                             "         [4] search by letter range\n"+
                             "         [5] search by prefix\n");
-
+                    controller.refreshaux();
                     optionTemp = sc.nextLine();
                     option = Integer.parseInt(optionTemp);
                     if(option>=1 && option<=3){

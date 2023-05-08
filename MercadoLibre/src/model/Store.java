@@ -14,6 +14,8 @@ public class Store {
     public ArrayList<Delivery> deliveries;
     private final Comparator<Product>[] comparators;
     private final Comparator<Delivery>[] comparators2;
+
+
     private ArrayList<Product> aux;
 
     public void refreshaux(){

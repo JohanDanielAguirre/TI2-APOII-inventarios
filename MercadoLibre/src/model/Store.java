@@ -95,7 +95,7 @@ public class Store {
         comparators2[1] = new Comparator<Delivery>() {
             @Override
             public int compare(Delivery o1, Delivery o2) {
-                return (int) (o1.getTotalPrice() - o2.getTotalPrice());
+                return (int) (o2.getTotalPrice() - o1.getTotalPrice());
             }
         };
 

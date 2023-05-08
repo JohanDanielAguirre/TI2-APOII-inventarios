@@ -26,13 +26,17 @@ public class Delivery implements Comparable<Delivery>{
     }
 
     public void setTotalPrice() {
-       double acum = 0;
+        double acum = 0;
 
         for (Product product : products) {
             acum += product.getPrice();
         }
 
         totalPrice = acum;
+    }
+
+    public void setTotalPrice2(int totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public LocalDateTime getBuyDate() {

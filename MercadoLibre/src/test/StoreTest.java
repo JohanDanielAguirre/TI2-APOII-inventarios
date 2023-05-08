@@ -189,7 +189,7 @@ public class StoreTest extends TestCase {
             Delivery delivery = store.deliveries.get(i);
             int i2 = delivery.searchProduct("Tarjeta de sonido profesional");
             assertNotNull(delivery.getProducts().get(i2));
-        }catch (Exception e){
+        }catch (ObjectNotFoundException e){
             fail();
         }
     }
@@ -417,5 +417,33 @@ public class StoreTest extends TestCase {
 
     }
 
+    public void testSearchDeliveryName(){
+        setUpStage5();
+        setUpStage4();
+
+        Delivery delivery = new Delivery("Paola Andrea",null);
+
+        try {
+            int i = store.searchDeliverySpecific(0,delivery);
+            assertEquals(delivery.getBuyerName(), store.deliveries.get(i).getBuyerName());
+        } catch (ObjectNotFoundException e) {
+            fail();
+        }
+    }
+
+    public void testSearchDeliveryByTotalPrice(){
+        setUpStage5();
+        setUpStage4();
+
+        Delivery delivery = new Delivery("Juan Sebastián L",null);
+        delivery.setTotalPrice2(360000);
+        try {
+            int i = store.searchDeliverySpecific(1,delivery);
+            assertEquals(delivery.getBuyerName(), store.deliveries.get(i).getBuyerName());
+        } catch (ObjectNotFoundException e) {
+            fail();
+        }
+
+    }
 
 }
